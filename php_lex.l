@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#define T_START 20
+#define T_START 1
 #define T_END 1
 #define T_ID 2
 #define T_LE 3
@@ -22,6 +22,7 @@
 #define NUM 19
 %}
 D [0-9.]
+%option yylineno
 %%
 "<?php" {return T_START;}
 "?>" {return T_END;}
@@ -59,7 +60,7 @@ D [0-9.]
 "%" {return 37;}
 "=" {return 61;}
 "$"[_a-zA-Z][_a-zA-Z0-9]* {return T_ID;}
-. printf("Invalid character\n");
+. {return -1;}
 %%
 
 int main()
@@ -67,7 +68,12 @@ int main()
   int token = yylex();
   while(token)
   {
-    printf("%s %d\n",yytext,token);
+    if(token == -1)
+    {
+      printf("Invalid syntax at line %d\n",yylineno);
+      exit(0);
+    }
+    printf("%s %d %d\n",yytext,token,yylineno);
     token = yylex();
   }
   return 0;
