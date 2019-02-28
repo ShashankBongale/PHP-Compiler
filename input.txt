@@ -18,7 +18,7 @@ switch($a)
           $b = $a + 20;
           break;
   case 30: $a = 40;
-  break;;
+  break;
   default:$a = 40;
 }
 ?>

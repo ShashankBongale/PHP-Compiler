@@ -994,7 +994,7 @@ YY_RULE_SETUP
 case 37:
 YY_RULE_SETUP
 #line 44 "php_lex.l"
-{printf("Did not match any valid token");return yytext[0];};
+{printf("Did not match any valid tokenn");return yytext[0];};
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
