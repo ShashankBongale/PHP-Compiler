@@ -69,8 +69,9 @@
   int yylex();
   void yyerror(char *);
   extern FILE *yyin;
+  extern int yylineno;
 
-#line 74 "y.tab.c" /* yacc.c:339  */
+#line 75 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -195,7 +196,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 199 "y.tab.c" /* yacc.c:358  */
+#line 200 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -496,11 +497,11 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    16,    16,    19,    20,    21,    22,    25,    27,    28,
-      29,    30,    31,    32,    33,    34,    35,    36,    39,    40,
-      43,    44,    45,    48,    49,    52,    53,    56,    59,    60,
-      61,    62,    63,    64,    65,    66,    67,    68,    69,    70,
-      71,    72
+       0,    17,    17,    20,    21,    22,    23,    26,    28,    29,
+      30,    31,    32,    33,    34,    35,    36,    37,    40,    41,
+      44,    45,    46,    49,    50,    53,    54,    57,    60,    61,
+      62,    63,    64,    65,    66,    67,    68,    69,    70,    71,
+      72,    73
 };
 #endif
 
@@ -1324,7 +1325,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1328 "y.tab.c" /* yacc.c:1646  */
+#line 1329 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1552,7 +1553,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 74 "php_yacc.y" /* yacc.c:1906  */
+#line 75 "php_yacc.y" /* yacc.c:1906  */
 
 
 int main(int argc,char *argv[])
@@ -1572,5 +1573,5 @@ int main(int argc,char *argv[])
 
 void yyerror(char *s)
 {
-  printf("Error :%s\n",s);
+  printf("Error :%s at %d \n",s,yylineno);
 }

@@ -4,6 +4,7 @@
   int yylex();
   void yyerror(char *);
   extern FILE *yyin;
+  extern int yylineno;
 %}
 
 %token T_START T_END T_LE T_GE T_NEC T_NE T_EQC T_EXP T_AND
@@ -90,5 +91,5 @@ int main(int argc,char *argv[])
 
 void yyerror(char *s)
 {
-  printf("Error :%s\n",s);
+  printf("Error :%s at %d \n",s,yylineno);
 }
