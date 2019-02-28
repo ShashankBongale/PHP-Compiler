@@ -4,6 +4,14 @@ $b = 20;
 $a = $b - 10;
 $c = $a + $b;
 $d = 10 * 10 * 10;
+switch($a+$b*10+100)
+{
+  case 10:$a=10;
+          $b = $a + 20;
+          break;
+  case 30: $a = 40;
+  default:$a = 40;
+}
 switch($a)
 {
   case 10:$a=10;

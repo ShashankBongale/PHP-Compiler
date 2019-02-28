@@ -22,7 +22,19 @@ Statements: Statements Assignment T_SC
   |Switch_Stat
   ;
 
-Switch_Stat : T_SW T_OB T_ID T_CB T_OP Switch_Blk T_CP;
+Switch_Stat : T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP;
+
+switch_exp : T_ID T_PL Assignment
+  | T_ID T_MIN Assignment
+  | T_ID T_STAR Assignment
+  | T_ID T_DIV Assignment
+  | NUM T_PL Assignment
+  | NUM T_MIN Assignment
+  | NUM T_STAR Assignment
+  | NUM T_DIV Assignment
+  |NUM
+	|T_ID
+  ;
 
 Switch_Blk : CaseBlock
   | CaseBlock DEF
@@ -54,8 +66,8 @@ Assignment: T_ID T_EQL Assignment
 	| NUM T_STAR Assignment
 	| NUM T_DIV Assignment
 	| T_OB Assignment T_CB
-	| '-' NUM
-	| '-' T_ID
+	| T_MIN NUM
+	| T_MIN T_ID
 	| NUM
 	| T_ID
   ;
