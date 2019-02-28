@@ -28,12 +28,13 @@ Switch_Blk : CaseBlock
   | CaseBlock DEF
 	;
 
-CaseBlock :CaseBlock T_CASE NUM T_C St1 T_BR T_SC
+CaseBlock :CaseBlock T_CASE NUM T_C St1
+  |CaseBlock T_CASE NUM T_C St1 T_BR T_SC
   |
 	;
 
 DEF : T_DF T_C St1 T_BR T_SC
-	|T_DF T_C St1 T_SC
+	|T_DF T_C St1
 	;
 
 St1 : St1 exp T_SC
