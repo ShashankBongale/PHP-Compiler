@@ -9,8 +9,6 @@ Terminals unused in grammar
    T_AND
    T_OR
    T_XOR
-   T_FE
-   T_AS
    T_LT
    T_GT
    T_NOT
@@ -28,49 +26,59 @@ Grammar
     3           | Assignment T_SC
     4           | Statements Switch_Stat
     5           | Switch_Stat
+    6           | Statements Foreach_Stat
+    7           | Foreach_Stat
 
-    6 Switch_Stat: T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP
+    8 Foreach_Stat: T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP
 
-    7 switch_exp: T_ID T_PL Assignment
-    8           | T_ID T_MIN Assignment
-    9           | T_ID T_STAR Assignment
-   10           | T_ID T_DIV Assignment
-   11           | NUM T_PL Assignment
-   12           | NUM T_MIN Assignment
-   13           | NUM T_STAR Assignment
-   14           | NUM T_DIV Assignment
-   15           | NUM
-   16           | T_ID
+    9 Foreach_Blk: St1
 
-   17 Switch_Blk: CaseBlock
-   18           | CaseBlock DEF
+   10 Switch_Stat: T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP
 
-   19 CaseBlock: CaseBlock T_CASE NUM T_C St1
-   20          | CaseBlock T_CASE NUM T_C St1 T_BR T_SC
-   21          | %empty
+   11 switch_exp: T_ID T_PL Assignment
+   12           | T_ID T_MIN Assignment
+   13           | T_ID T_STAR Assignment
+   14           | T_ID T_DIV Assignment
+   15           | NUM T_PL Assignment
+   16           | NUM T_MIN Assignment
+   17           | NUM T_STAR Assignment
+   18           | NUM T_DIV Assignment
+   19           | NUM
+   20           | T_ID
 
-   22 DEF: T_DF T_C St1 T_BR T_SC
-   23    | T_DF T_C St1
+   21 Switch_Blk: CaseBlock
+   22           | CaseBlock DEF
 
-   24 St1: St1 exp T_SC
-   25    | exp T_SC
+   23 CaseBlock: CaseBlock T_CASE NUM T_C St1
+   24          | CaseBlock T_CASE NUM T_C St1 T_BR T_SC
+   25          | %empty
 
-   26 exp: Assignment
+   26 DEF: T_DF T_C St1 T_BR T_SC
+   27    | T_DF T_C St1
 
-   27 Assignment: T_ID T_EQL Assignment
-   28           | T_ID T_PL Assignment
-   29           | T_ID T_MIN Assignment
-   30           | T_ID T_STAR Assignment
-   31           | T_ID T_DIV Assignment
-   32           | NUM T_PL Assignment
-   33           | NUM T_MIN Assignment
-   34           | NUM T_STAR Assignment
-   35           | NUM T_DIV Assignment
-   36           | T_OB Assignment T_CB
-   37           | T_MIN NUM
-   38           | T_MIN T_ID
-   39           | NUM
-   40           | T_ID
+   28 St1: St1 exp T_SC
+   29    | exp T_SC
+
+   30 exp: Assignment
+
+   31 Assignment: T_ID T_EQL Assignment
+   32           | T_ID T_PL Assignment
+   33           | T_ID T_MIN Assignment
+   34           | T_ID T_STAR Assignment
+   35           | T_ID T_DIV Assignment
+   36           | NUM T_PL Assignment
+   37           | NUM T_MIN Assignment
+   38           | NUM T_STAR Assignment
+   39           | NUM T_DIV Assignment
+   40           | T_OB Assignment T_CB
+   41           | T_MIN NUM
+   42           | T_MIN T_ID
+   43           | T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB
+   44           | NUM
+   45           | T_ID
+
+   46 Data: NUM
+   47     | T_ID
 
 
 Terminals, with rules where they appear
@@ -88,57 +96,65 @@ T_EXP (265)
 T_AND (266)
 T_OR (267)
 T_XOR (268)
-T_FE (269)
-T_AS (270)
-T_CASE (271) 19 20
-T_BR (272) 20 22
-T_DF (273) 22 23
-NUM (274) 11 12 13 14 15 19 20 32 33 34 35 37 39
+T_FE (269) 8
+T_AS (270) 8
+T_CASE (271) 23 24
+T_BR (272) 24 26
+T_DF (273) 26 27
+NUM (274) 15 16 17 18 19 23 24 36 37 38 39 41 43 44 46
 T_LT (275)
 T_GT (276)
 T_NOT (277)
-T_OP (278) 6
-T_CP (279) 6
-T_OB (280) 6 36
-T_CB (281) 6 36
-T_SC (282) 2 3 20 22 24 25
-T_C (283) 19 20 22 23
-T_PL (284) 7 11 28 32
-T_MIN (285) 8 12 29 33 37 38
-T_STAR (286) 9 13 30 34
-T_DIV (287) 10 14 31 35
+T_OP (278) 8 10
+T_CP (279) 8 10
+T_OB (280) 8 10 40 43
+T_CB (281) 8 10 40 43
+T_SC (282) 2 3 24 26 28 29
+T_C (283) 23 24 26 27
+T_PL (284) 11 15 32 36
+T_MIN (285) 12 16 33 37 41 42
+T_STAR (286) 13 17 34 38
+T_DIV (287) 14 18 35 39
 T_MOD (288)
-T_EQL (289) 27
+T_EQL (289) 31 43
 T_EQ (290)
-T_ID (291) 7 8 9 10 16 27 28 29 30 31 38 40
-T_SW (292) 6
+T_ID (291) 8 11 12 13 14 20 31 32 33 34 35 42 43 45 47
+T_SW (292) 10
+T_COM (293) 43
+T_ARR (294) 43
 
 
 Nonterminals, with rules where they appear
 
-$accept (38)
+$accept (40)
     on left: 0
-Start (39)
+Start (41)
     on left: 1, on right: 0
-Statements (40)
-    on left: 2 3 4 5, on right: 1 2 4
-Switch_Stat (41)
-    on left: 6, on right: 4 5
-switch_exp (42)
-    on left: 7 8 9 10 11 12 13 14 15 16, on right: 6
-Switch_Blk (43)
-    on left: 17 18, on right: 6
-CaseBlock (44)
-    on left: 19 20 21, on right: 17 18 19 20
-DEF (45)
-    on left: 22 23, on right: 18
-St1 (46)
-    on left: 24 25, on right: 19 20 22 23 24
-exp (47)
-    on left: 26, on right: 24 25
-Assignment (48)
-    on left: 27 28 29 30 31 32 33 34 35 36 37 38 39 40, on right: 2
-    3 7 8 9 10 11 12 13 14 26 27 28 29 30 31 32 33 34 35 36
+Statements (42)
+    on left: 2 3 4 5 6 7, on right: 1 2 4 6
+Foreach_Stat (43)
+    on left: 8, on right: 6 7
+Foreach_Blk (44)
+    on left: 9, on right: 8
+Switch_Stat (45)
+    on left: 10, on right: 4 5
+switch_exp (46)
+    on left: 11 12 13 14 15 16 17 18 19 20, on right: 10
+Switch_Blk (47)
+    on left: 21 22, on right: 10
+CaseBlock (48)
+    on left: 23 24 25, on right: 21 22 23 24
+DEF (49)
+    on left: 26 27, on right: 22
+St1 (50)
+    on left: 28 29, on right: 9 23 24 26 27 28
+exp (51)
+    on left: 30, on right: 28 29
+Assignment (52)
+    on left: 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45, on right:
+    2 3 11 12 13 14 15 16 17 18 30 31 32 33 34 35 36 37 38 39 40
+Data (53)
+    on left: 46 47, on right: 43
 
 
 State 0
@@ -154,760 +170,928 @@ State 1
 
     1 Start: T_START . Statements T_END
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-    T_SW   shift, and go to state 7
+    T_FE   shift, and go to state 3
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+    T_SW   shift, and go to state 8
 
-    Statements   go to state 8
-    Switch_Stat  go to state 9
-    Assignment   go to state 10
+    Statements    go to state 9
+    Foreach_Stat  go to state 10
+    Switch_Stat   go to state 11
+    Assignment    go to state 12
 
 
 State 2
 
     0 $accept: Start . $end
 
-    $end  shift, and go to state 11
+    $end  shift, and go to state 13
 
 
 State 3
 
-   32 Assignment: NUM . T_PL Assignment
-   33           | NUM . T_MIN Assignment
-   34           | NUM . T_STAR Assignment
-   35           | NUM . T_DIV Assignment
-   39           | NUM .
+    8 Foreach_Stat: T_FE . T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP
 
-    T_PL    shift, and go to state 12
-    T_MIN   shift, and go to state 13
-    T_STAR  shift, and go to state 14
-    T_DIV   shift, and go to state 15
-
-    $default  reduce using rule 39 (Assignment)
+    T_OB  shift, and go to state 14
 
 
 State 4
 
-   36 Assignment: T_OB . Assignment T_CB
+   36 Assignment: NUM . T_PL Assignment
+   37           | NUM . T_MIN Assignment
+   38           | NUM . T_STAR Assignment
+   39           | NUM . T_DIV Assignment
+   44           | NUM .
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
+    T_PL    shift, and go to state 15
+    T_MIN   shift, and go to state 16
+    T_STAR  shift, and go to state 17
+    T_DIV   shift, and go to state 18
 
-    Assignment  go to state 16
+    $default  reduce using rule 44 (Assignment)
 
 
 State 5
 
-   37 Assignment: T_MIN . NUM
-   38           | T_MIN . T_ID
+   40 Assignment: T_OB . Assignment T_CB
 
-    NUM   shift, and go to state 17
-    T_ID  shift, and go to state 18
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 19
 
 
 State 6
 
-   27 Assignment: T_ID . T_EQL Assignment
-   28           | T_ID . T_PL Assignment
-   29           | T_ID . T_MIN Assignment
-   30           | T_ID . T_STAR Assignment
-   31           | T_ID . T_DIV Assignment
-   40           | T_ID .
+   41 Assignment: T_MIN . NUM
+   42           | T_MIN . T_ID
 
-    T_PL    shift, and go to state 19
-    T_MIN   shift, and go to state 20
-    T_STAR  shift, and go to state 21
-    T_DIV   shift, and go to state 22
-    T_EQL   shift, and go to state 23
-
-    $default  reduce using rule 40 (Assignment)
+    NUM   shift, and go to state 20
+    T_ID  shift, and go to state 21
 
 
 State 7
 
-    6 Switch_Stat: T_SW . T_OB switch_exp T_CB T_OP Switch_Blk T_CP
+   31 Assignment: T_ID . T_EQL Assignment
+   32           | T_ID . T_PL Assignment
+   33           | T_ID . T_MIN Assignment
+   34           | T_ID . T_STAR Assignment
+   35           | T_ID . T_DIV Assignment
+   43           | T_ID . T_EQL T_ARR T_OB Data T_COM NUM T_CB
+   45           | T_ID .
 
-    T_OB  shift, and go to state 24
+    T_PL    shift, and go to state 22
+    T_MIN   shift, and go to state 23
+    T_STAR  shift, and go to state 24
+    T_DIV   shift, and go to state 25
+    T_EQL   shift, and go to state 26
+
+    $default  reduce using rule 45 (Assignment)
 
 
 State 8
 
-    1 Start: T_START Statements . T_END
-    2 Statements: Statements . Assignment T_SC
-    4           | Statements . Switch_Stat
+   10 Switch_Stat: T_SW . T_OB switch_exp T_CB T_OP Switch_Blk T_CP
 
-    T_END  shift, and go to state 25
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-    T_SW   shift, and go to state 7
-
-    Switch_Stat  go to state 26
-    Assignment   go to state 27
+    T_OB  shift, and go to state 27
 
 
 State 9
+
+    1 Start: T_START Statements . T_END
+    2 Statements: Statements . Assignment T_SC
+    4           | Statements . Switch_Stat
+    6           | Statements . Foreach_Stat
+
+    T_END  shift, and go to state 28
+    T_FE   shift, and go to state 3
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+    T_SW   shift, and go to state 8
+
+    Foreach_Stat  go to state 29
+    Switch_Stat   go to state 30
+    Assignment    go to state 31
+
+
+State 10
+
+    7 Statements: Foreach_Stat .
+
+    $default  reduce using rule 7 (Statements)
+
+
+State 11
 
     5 Statements: Switch_Stat .
 
     $default  reduce using rule 5 (Statements)
 
 
-State 10
+State 12
 
     3 Statements: Assignment . T_SC
 
-    T_SC  shift, and go to state 28
+    T_SC  shift, and go to state 32
 
 
-State 11
+State 13
 
     0 $accept: Start $end .
 
     $default  accept
 
 
-State 12
-
-   32 Assignment: NUM T_PL . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 29
-
-
-State 13
-
-   33 Assignment: NUM T_MIN . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 30
-
-
 State 14
 
-   34 Assignment: NUM T_STAR . Assignment
+    8 Foreach_Stat: T_FE T_OB . T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 31
+    T_ID  shift, and go to state 33
 
 
 State 15
 
-   35 Assignment: NUM T_DIV . Assignment
+   36 Assignment: NUM T_PL . Assignment
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 32
-
-
-State 16
-
-   36 Assignment: T_OB Assignment . T_CB
-
-    T_CB  shift, and go to state 33
-
-
-State 17
-
-   37 Assignment: T_MIN NUM .
-
-    $default  reduce using rule 37 (Assignment)
-
-
-State 18
-
-   38 Assignment: T_MIN T_ID .
-
-    $default  reduce using rule 38 (Assignment)
-
-
-State 19
-
-   28 Assignment: T_ID T_PL . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
 
     Assignment  go to state 34
 
 
-State 20
+State 16
 
-   29 Assignment: T_ID T_MIN . Assignment
+   37 Assignment: NUM T_MIN . Assignment
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
 
     Assignment  go to state 35
 
 
-State 21
+State 17
 
-   30 Assignment: T_ID T_STAR . Assignment
+   38 Assignment: NUM T_STAR . Assignment
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
 
     Assignment  go to state 36
 
 
-State 22
+State 18
 
-   31 Assignment: T_ID T_DIV . Assignment
+   39 Assignment: NUM T_DIV . Assignment
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
 
     Assignment  go to state 37
 
 
+State 19
+
+   40 Assignment: T_OB Assignment . T_CB
+
+    T_CB  shift, and go to state 38
+
+
+State 20
+
+   41 Assignment: T_MIN NUM .
+
+    $default  reduce using rule 41 (Assignment)
+
+
+State 21
+
+   42 Assignment: T_MIN T_ID .
+
+    $default  reduce using rule 42 (Assignment)
+
+
+State 22
+
+   32 Assignment: T_ID T_PL . Assignment
+
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 39
+
+
 State 23
 
-   27 Assignment: T_ID T_EQL . Assignment
+   33 Assignment: T_ID T_MIN . Assignment
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
 
-    Assignment  go to state 38
+    Assignment  go to state 40
 
 
 State 24
 
-    6 Switch_Stat: T_SW T_OB . switch_exp T_CB T_OP Switch_Blk T_CP
+   34 Assignment: T_ID T_STAR . Assignment
 
-    NUM   shift, and go to state 39
-    T_ID  shift, and go to state 40
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
 
-    switch_exp  go to state 41
+    Assignment  go to state 41
 
 
 State 25
+
+   35 Assignment: T_ID T_DIV . Assignment
+
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 42
+
+
+State 26
+
+   31 Assignment: T_ID T_EQL . Assignment
+   43           | T_ID T_EQL . T_ARR T_OB Data T_COM NUM T_CB
+
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+    T_ARR  shift, and go to state 43
+
+    Assignment  go to state 44
+
+
+State 27
+
+   10 Switch_Stat: T_SW T_OB . switch_exp T_CB T_OP Switch_Blk T_CP
+
+    NUM   shift, and go to state 45
+    T_ID  shift, and go to state 46
+
+    switch_exp  go to state 47
+
+
+State 28
 
     1 Start: T_START Statements T_END .
 
     $default  reduce using rule 1 (Start)
 
 
-State 26
+State 29
+
+    6 Statements: Statements Foreach_Stat .
+
+    $default  reduce using rule 6 (Statements)
+
+
+State 30
 
     4 Statements: Statements Switch_Stat .
 
     $default  reduce using rule 4 (Statements)
 
 
-State 27
+State 31
 
     2 Statements: Statements Assignment . T_SC
 
-    T_SC  shift, and go to state 42
+    T_SC  shift, and go to state 48
 
 
-State 28
+State 32
 
     3 Statements: Assignment T_SC .
 
     $default  reduce using rule 3 (Statements)
 
 
-State 29
-
-   32 Assignment: NUM T_PL Assignment .
-
-    $default  reduce using rule 32 (Assignment)
-
-
-State 30
-
-   33 Assignment: NUM T_MIN Assignment .
-
-    $default  reduce using rule 33 (Assignment)
-
-
-State 31
-
-   34 Assignment: NUM T_STAR Assignment .
-
-    $default  reduce using rule 34 (Assignment)
-
-
-State 32
-
-   35 Assignment: NUM T_DIV Assignment .
-
-    $default  reduce using rule 35 (Assignment)
-
-
 State 33
 
-   36 Assignment: T_OB Assignment T_CB .
+    8 Foreach_Stat: T_FE T_OB T_ID . T_AS T_ID T_CB T_OP Foreach_Blk T_CP
 
-    $default  reduce using rule 36 (Assignment)
+    T_AS  shift, and go to state 49
 
 
 State 34
 
-   28 Assignment: T_ID T_PL Assignment .
+   36 Assignment: NUM T_PL Assignment .
 
-    $default  reduce using rule 28 (Assignment)
+    $default  reduce using rule 36 (Assignment)
 
 
 State 35
 
-   29 Assignment: T_ID T_MIN Assignment .
+   37 Assignment: NUM T_MIN Assignment .
 
-    $default  reduce using rule 29 (Assignment)
+    $default  reduce using rule 37 (Assignment)
 
 
 State 36
 
-   30 Assignment: T_ID T_STAR Assignment .
+   38 Assignment: NUM T_STAR Assignment .
 
-    $default  reduce using rule 30 (Assignment)
+    $default  reduce using rule 38 (Assignment)
 
 
 State 37
 
-   31 Assignment: T_ID T_DIV Assignment .
+   39 Assignment: NUM T_DIV Assignment .
 
-    $default  reduce using rule 31 (Assignment)
+    $default  reduce using rule 39 (Assignment)
 
 
 State 38
 
-   27 Assignment: T_ID T_EQL Assignment .
+   40 Assignment: T_OB Assignment T_CB .
 
-    $default  reduce using rule 27 (Assignment)
+    $default  reduce using rule 40 (Assignment)
 
 
 State 39
 
-   11 switch_exp: NUM . T_PL Assignment
-   12           | NUM . T_MIN Assignment
-   13           | NUM . T_STAR Assignment
-   14           | NUM . T_DIV Assignment
-   15           | NUM .
+   32 Assignment: T_ID T_PL Assignment .
 
-    T_PL    shift, and go to state 43
-    T_MIN   shift, and go to state 44
-    T_STAR  shift, and go to state 45
-    T_DIV   shift, and go to state 46
-
-    $default  reduce using rule 15 (switch_exp)
+    $default  reduce using rule 32 (Assignment)
 
 
 State 40
 
-    7 switch_exp: T_ID . T_PL Assignment
-    8           | T_ID . T_MIN Assignment
-    9           | T_ID . T_STAR Assignment
-   10           | T_ID . T_DIV Assignment
-   16           | T_ID .
+   33 Assignment: T_ID T_MIN Assignment .
 
-    T_PL    shift, and go to state 47
-    T_MIN   shift, and go to state 48
-    T_STAR  shift, and go to state 49
-    T_DIV   shift, and go to state 50
-
-    $default  reduce using rule 16 (switch_exp)
+    $default  reduce using rule 33 (Assignment)
 
 
 State 41
 
-    6 Switch_Stat: T_SW T_OB switch_exp . T_CB T_OP Switch_Blk T_CP
+   34 Assignment: T_ID T_STAR Assignment .
 
-    T_CB  shift, and go to state 51
+    $default  reduce using rule 34 (Assignment)
 
 
 State 42
+
+   35 Assignment: T_ID T_DIV Assignment .
+
+    $default  reduce using rule 35 (Assignment)
+
+
+State 43
+
+   43 Assignment: T_ID T_EQL T_ARR . T_OB Data T_COM NUM T_CB
+
+    T_OB  shift, and go to state 50
+
+
+State 44
+
+   31 Assignment: T_ID T_EQL Assignment .
+
+    $default  reduce using rule 31 (Assignment)
+
+
+State 45
+
+   15 switch_exp: NUM . T_PL Assignment
+   16           | NUM . T_MIN Assignment
+   17           | NUM . T_STAR Assignment
+   18           | NUM . T_DIV Assignment
+   19           | NUM .
+
+    T_PL    shift, and go to state 51
+    T_MIN   shift, and go to state 52
+    T_STAR  shift, and go to state 53
+    T_DIV   shift, and go to state 54
+
+    $default  reduce using rule 19 (switch_exp)
+
+
+State 46
+
+   11 switch_exp: T_ID . T_PL Assignment
+   12           | T_ID . T_MIN Assignment
+   13           | T_ID . T_STAR Assignment
+   14           | T_ID . T_DIV Assignment
+   20           | T_ID .
+
+    T_PL    shift, and go to state 55
+    T_MIN   shift, and go to state 56
+    T_STAR  shift, and go to state 57
+    T_DIV   shift, and go to state 58
+
+    $default  reduce using rule 20 (switch_exp)
+
+
+State 47
+
+   10 Switch_Stat: T_SW T_OB switch_exp . T_CB T_OP Switch_Blk T_CP
+
+    T_CB  shift, and go to state 59
+
+
+State 48
 
     2 Statements: Statements Assignment T_SC .
 
     $default  reduce using rule 2 (Statements)
 
 
-State 43
-
-   11 switch_exp: NUM T_PL . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 52
-
-
-State 44
-
-   12 switch_exp: NUM T_MIN . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 53
-
-
-State 45
-
-   13 switch_exp: NUM T_STAR . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 54
-
-
-State 46
-
-   14 switch_exp: NUM T_DIV . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 55
-
-
-State 47
-
-    7 switch_exp: T_ID T_PL . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 56
-
-
-State 48
-
-    8 switch_exp: T_ID T_MIN . Assignment
-
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 57
-
-
 State 49
 
-    9 switch_exp: T_ID T_STAR . Assignment
+    8 Foreach_Stat: T_FE T_OB T_ID T_AS . T_ID T_CB T_OP Foreach_Blk T_CP
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    Assignment  go to state 58
+    T_ID  shift, and go to state 60
 
 
 State 50
 
-   10 switch_exp: T_ID T_DIV . Assignment
+   43 Assignment: T_ID T_EQL T_ARR T_OB . Data T_COM NUM T_CB
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
+    NUM   shift, and go to state 61
+    T_ID  shift, and go to state 62
 
-    Assignment  go to state 59
+    Data  go to state 63
 
 
 State 51
 
-    6 Switch_Stat: T_SW T_OB switch_exp T_CB . T_OP Switch_Blk T_CP
+   15 switch_exp: NUM T_PL . Assignment
 
-    T_OP  shift, and go to state 60
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 64
 
 
 State 52
 
-   11 switch_exp: NUM T_PL Assignment .
+   16 switch_exp: NUM T_MIN . Assignment
 
-    $default  reduce using rule 11 (switch_exp)
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 65
 
 
 State 53
 
-   12 switch_exp: NUM T_MIN Assignment .
+   17 switch_exp: NUM T_STAR . Assignment
 
-    $default  reduce using rule 12 (switch_exp)
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 66
 
 
 State 54
 
-   13 switch_exp: NUM T_STAR Assignment .
+   18 switch_exp: NUM T_DIV . Assignment
 
-    $default  reduce using rule 13 (switch_exp)
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 67
 
 
 State 55
 
-   14 switch_exp: NUM T_DIV Assignment .
+   11 switch_exp: T_ID T_PL . Assignment
 
-    $default  reduce using rule 14 (switch_exp)
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 68
 
 
 State 56
 
-    7 switch_exp: T_ID T_PL Assignment .
+   12 switch_exp: T_ID T_MIN . Assignment
 
-    $default  reduce using rule 7 (switch_exp)
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 69
 
 
 State 57
 
-    8 switch_exp: T_ID T_MIN Assignment .
+   13 switch_exp: T_ID T_STAR . Assignment
 
-    $default  reduce using rule 8 (switch_exp)
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 70
 
 
 State 58
 
-    9 switch_exp: T_ID T_STAR Assignment .
+   14 switch_exp: T_ID T_DIV . Assignment
 
-    $default  reduce using rule 9 (switch_exp)
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Assignment  go to state 71
 
 
 State 59
 
-   10 switch_exp: T_ID T_DIV Assignment .
+   10 Switch_Stat: T_SW T_OB switch_exp T_CB . T_OP Switch_Blk T_CP
 
-    $default  reduce using rule 10 (switch_exp)
+    T_OP  shift, and go to state 72
 
 
 State 60
 
-    6 Switch_Stat: T_SW T_OB switch_exp T_CB T_OP . Switch_Blk T_CP
+    8 Foreach_Stat: T_FE T_OB T_ID T_AS T_ID . T_CB T_OP Foreach_Blk T_CP
 
-    $default  reduce using rule 21 (CaseBlock)
-
-    Switch_Blk  go to state 61
-    CaseBlock   go to state 62
+    T_CB  shift, and go to state 73
 
 
 State 61
 
-    6 Switch_Stat: T_SW T_OB switch_exp T_CB T_OP Switch_Blk . T_CP
+   46 Data: NUM .
 
-    T_CP  shift, and go to state 63
+    $default  reduce using rule 46 (Data)
 
 
 State 62
 
-   17 Switch_Blk: CaseBlock .
-   18           | CaseBlock . DEF
-   19 CaseBlock: CaseBlock . T_CASE NUM T_C St1
-   20          | CaseBlock . T_CASE NUM T_C St1 T_BR T_SC
+   47 Data: T_ID .
 
-    T_CASE  shift, and go to state 64
-    T_DF    shift, and go to state 65
-
-    $default  reduce using rule 17 (Switch_Blk)
-
-    DEF  go to state 66
+    $default  reduce using rule 47 (Data)
 
 
 State 63
 
-    6 Switch_Stat: T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP .
+   43 Assignment: T_ID T_EQL T_ARR T_OB Data . T_COM NUM T_CB
 
-    $default  reduce using rule 6 (Switch_Stat)
+    T_COM  shift, and go to state 74
 
 
 State 64
 
-   19 CaseBlock: CaseBlock T_CASE . NUM T_C St1
-   20          | CaseBlock T_CASE . NUM T_C St1 T_BR T_SC
+   15 switch_exp: NUM T_PL Assignment .
 
-    NUM  shift, and go to state 67
+    $default  reduce using rule 15 (switch_exp)
 
 
 State 65
 
-   22 DEF: T_DF . T_C St1 T_BR T_SC
-   23    | T_DF . T_C St1
+   16 switch_exp: NUM T_MIN Assignment .
 
-    T_C  shift, and go to state 68
+    $default  reduce using rule 16 (switch_exp)
 
 
 State 66
 
-   18 Switch_Blk: CaseBlock DEF .
+   17 switch_exp: NUM T_STAR Assignment .
 
-    $default  reduce using rule 18 (Switch_Blk)
+    $default  reduce using rule 17 (switch_exp)
 
 
 State 67
 
-   19 CaseBlock: CaseBlock T_CASE NUM . T_C St1
-   20          | CaseBlock T_CASE NUM . T_C St1 T_BR T_SC
+   18 switch_exp: NUM T_DIV Assignment .
 
-    T_C  shift, and go to state 69
+    $default  reduce using rule 18 (switch_exp)
 
 
 State 68
 
-   22 DEF: T_DF T_C . St1 T_BR T_SC
-   23    | T_DF T_C . St1
+   11 switch_exp: T_ID T_PL Assignment .
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    St1         go to state 70
-    exp         go to state 71
-    Assignment  go to state 72
+    $default  reduce using rule 11 (switch_exp)
 
 
 State 69
 
-   19 CaseBlock: CaseBlock T_CASE NUM T_C . St1
-   20          | CaseBlock T_CASE NUM T_C . St1 T_BR T_SC
+   12 switch_exp: T_ID T_MIN Assignment .
 
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    St1         go to state 73
-    exp         go to state 71
-    Assignment  go to state 72
+    $default  reduce using rule 12 (switch_exp)
 
 
 State 70
 
-   22 DEF: T_DF T_C St1 . T_BR T_SC
-   23    | T_DF T_C St1 .
-   24 St1: St1 . exp T_SC
+   13 switch_exp: T_ID T_STAR Assignment .
 
-    T_BR   shift, and go to state 74
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    $default  reduce using rule 23 (DEF)
-
-    exp         go to state 75
-    Assignment  go to state 72
+    $default  reduce using rule 13 (switch_exp)
 
 
 State 71
 
-   25 St1: exp . T_SC
+   14 switch_exp: T_ID T_DIV Assignment .
 
-    T_SC  shift, and go to state 76
+    $default  reduce using rule 14 (switch_exp)
 
 
 State 72
 
-   26 exp: Assignment .
+   10 Switch_Stat: T_SW T_OB switch_exp T_CB T_OP . Switch_Blk T_CP
 
-    $default  reduce using rule 26 (exp)
+    $default  reduce using rule 25 (CaseBlock)
+
+    Switch_Blk  go to state 75
+    CaseBlock   go to state 76
 
 
 State 73
 
-   19 CaseBlock: CaseBlock T_CASE NUM T_C St1 .
-   20          | CaseBlock T_CASE NUM T_C St1 . T_BR T_SC
-   24 St1: St1 . exp T_SC
+    8 Foreach_Stat: T_FE T_OB T_ID T_AS T_ID T_CB . T_OP Foreach_Blk T_CP
 
-    T_BR   shift, and go to state 77
-    NUM    shift, and go to state 3
-    T_OB   shift, and go to state 4
-    T_MIN  shift, and go to state 5
-    T_ID   shift, and go to state 6
-
-    $default  reduce using rule 19 (CaseBlock)
-
-    exp         go to state 75
-    Assignment  go to state 72
+    T_OP  shift, and go to state 77
 
 
 State 74
 
-   22 DEF: T_DF T_C St1 T_BR . T_SC
+   43 Assignment: T_ID T_EQL T_ARR T_OB Data T_COM . NUM T_CB
 
-    T_SC  shift, and go to state 78
+    NUM  shift, and go to state 78
 
 
 State 75
 
-   24 St1: St1 exp . T_SC
+   10 Switch_Stat: T_SW T_OB switch_exp T_CB T_OP Switch_Blk . T_CP
 
-    T_SC  shift, and go to state 79
+    T_CP  shift, and go to state 79
 
 
 State 76
 
-   25 St1: exp T_SC .
+   21 Switch_Blk: CaseBlock .
+   22           | CaseBlock . DEF
+   23 CaseBlock: CaseBlock . T_CASE NUM T_C St1
+   24          | CaseBlock . T_CASE NUM T_C St1 T_BR T_SC
 
-    $default  reduce using rule 25 (St1)
+    T_CASE  shift, and go to state 80
+    T_DF    shift, and go to state 81
+
+    $default  reduce using rule 21 (Switch_Blk)
+
+    DEF  go to state 82
 
 
 State 77
 
-   20 CaseBlock: CaseBlock T_CASE NUM T_C St1 T_BR . T_SC
+    8 Foreach_Stat: T_FE T_OB T_ID T_AS T_ID T_CB T_OP . Foreach_Blk T_CP
 
-    T_SC  shift, and go to state 80
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    Foreach_Blk  go to state 83
+    St1          go to state 84
+    exp          go to state 85
+    Assignment   go to state 86
 
 
 State 78
 
-   22 DEF: T_DF T_C St1 T_BR T_SC .
+   43 Assignment: T_ID T_EQL T_ARR T_OB Data T_COM NUM . T_CB
 
-    $default  reduce using rule 22 (DEF)
+    T_CB  shift, and go to state 87
 
 
 State 79
 
-   24 St1: St1 exp T_SC .
+   10 Switch_Stat: T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP .
 
-    $default  reduce using rule 24 (St1)
+    $default  reduce using rule 10 (Switch_Stat)
 
 
 State 80
 
-   20 CaseBlock: CaseBlock T_CASE NUM T_C St1 T_BR T_SC .
+   23 CaseBlock: CaseBlock T_CASE . NUM T_C St1
+   24          | CaseBlock T_CASE . NUM T_C St1 T_BR T_SC
 
-    $default  reduce using rule 20 (CaseBlock)
+    NUM  shift, and go to state 88
+
+
+State 81
+
+   26 DEF: T_DF . T_C St1 T_BR T_SC
+   27    | T_DF . T_C St1
+
+    T_C  shift, and go to state 89
+
+
+State 82
+
+   22 Switch_Blk: CaseBlock DEF .
+
+    $default  reduce using rule 22 (Switch_Blk)
+
+
+State 83
+
+    8 Foreach_Stat: T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk . T_CP
+
+    T_CP  shift, and go to state 90
+
+
+State 84
+
+    9 Foreach_Blk: St1 .
+   28 St1: St1 . exp T_SC
+
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    $default  reduce using rule 9 (Foreach_Blk)
+
+    exp         go to state 91
+    Assignment  go to state 86
+
+
+State 85
+
+   29 St1: exp . T_SC
+
+    T_SC  shift, and go to state 92
+
+
+State 86
+
+   30 exp: Assignment .
+
+    $default  reduce using rule 30 (exp)
+
+
+State 87
+
+   43 Assignment: T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB .
+
+    $default  reduce using rule 43 (Assignment)
+
+
+State 88
+
+   23 CaseBlock: CaseBlock T_CASE NUM . T_C St1
+   24          | CaseBlock T_CASE NUM . T_C St1 T_BR T_SC
+
+    T_C  shift, and go to state 93
+
+
+State 89
+
+   26 DEF: T_DF T_C . St1 T_BR T_SC
+   27    | T_DF T_C . St1
+
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    St1         go to state 94
+    exp         go to state 85
+    Assignment  go to state 86
+
+
+State 90
+
+    8 Foreach_Stat: T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP .
+
+    $default  reduce using rule 8 (Foreach_Stat)
+
+
+State 91
+
+   28 St1: St1 exp . T_SC
+
+    T_SC  shift, and go to state 95
+
+
+State 92
+
+   29 St1: exp T_SC .
+
+    $default  reduce using rule 29 (St1)
+
+
+State 93
+
+   23 CaseBlock: CaseBlock T_CASE NUM T_C . St1
+   24          | CaseBlock T_CASE NUM T_C . St1 T_BR T_SC
+
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    St1         go to state 96
+    exp         go to state 85
+    Assignment  go to state 86
+
+
+State 94
+
+   26 DEF: T_DF T_C St1 . T_BR T_SC
+   27    | T_DF T_C St1 .
+   28 St1: St1 . exp T_SC
+
+    T_BR   shift, and go to state 97
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    $default  reduce using rule 27 (DEF)
+
+    exp         go to state 91
+    Assignment  go to state 86
+
+
+State 95
+
+   28 St1: St1 exp T_SC .
+
+    $default  reduce using rule 28 (St1)
+
+
+State 96
+
+   23 CaseBlock: CaseBlock T_CASE NUM T_C St1 .
+   24          | CaseBlock T_CASE NUM T_C St1 . T_BR T_SC
+   28 St1: St1 . exp T_SC
+
+    T_BR   shift, and go to state 98
+    NUM    shift, and go to state 4
+    T_OB   shift, and go to state 5
+    T_MIN  shift, and go to state 6
+    T_ID   shift, and go to state 7
+
+    $default  reduce using rule 23 (CaseBlock)
+
+    exp         go to state 91
+    Assignment  go to state 86
+
+
+State 97
+
+   26 DEF: T_DF T_C St1 T_BR . T_SC
+
+    T_SC  shift, and go to state 99
+
+
+State 98
+
+   24 CaseBlock: CaseBlock T_CASE NUM T_C St1 T_BR . T_SC
+
+    T_SC  shift, and go to state 100
+
+
+State 99
+
+   26 DEF: T_DF T_C St1 T_BR T_SC .
+
+    $default  reduce using rule 26 (DEF)
+
+
+State 100
+
+   24 CaseBlock: CaseBlock T_CASE NUM T_C St1 T_BR T_SC .
+
+    $default  reduce using rule 24 (CaseBlock)

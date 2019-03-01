@@ -41,8 +41,10 @@ D [0-9.]
 "-" {yylval=strdup(yytext);return T_MIN;}
 "*" {yylval=strdup(yytext);return T_STAR;}
 "/" {yylval=strdup(yytext);return T_DIV;}
+"," {yylval=strdup(yytext);return T_COM;}
 "%" {yylval=strdup(yytext);return T_MOD;}
 "=" {yylval=strdup(yytext);return T_EQL;}
+"array" {yylval=strdup(yytext);return T_ARR;}
 "$"[_a-zA-Z][_a-zA-Z0-9]* {yylval=strdup(yytext);return T_ID;}
 . {printf("Did not match any valid token");return yytext[0];};
 %%

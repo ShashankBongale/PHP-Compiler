@@ -12,4 +12,8 @@ switch($a+$b*10+100)
   case 30: $a = 40;
   default:$a = 40;
 }
+$b = array(10,20);
+foreach($colors as $value) {
+    $a = $a + 10;
+}
 ?>

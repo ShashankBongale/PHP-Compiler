@@ -79,7 +79,9 @@ extern int yydebug;
     T_EQL = 289,
     T_EQ = 290,
     T_ID = 291,
-    T_SW = 292
+    T_SW = 292,
+    T_COM = 293,
+    T_ARR = 294
   };
 #endif
 /* Tokens.  */
@@ -118,6 +120,8 @@ extern int yydebug;
 #define T_EQ 290
 #define T_ID 291
 #define T_SW 292
+#define T_COM 293
+#define T_ARR 294
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

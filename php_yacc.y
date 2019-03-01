@@ -22,7 +22,7 @@
 %token T_START T_END T_LE T_GE T_NEC T_NE T_EQC T_EXP T_AND
 %token T_OR T_XOR T_FE T_AS T_CASE T_BR T_DF NUM T_LT T_GT
 %token T_NOT T_OP T_CP T_OB T_CB T_SC T_C T_PL T_MIN T_STAR T_DIV T_MOD T_EQL
-%token T_EQ T_ID T_SW
+%token T_EQ T_ID T_SW T_COM T_ARR
 
 %start Start
 %%
@@ -34,7 +34,13 @@ Statements: Statements Assignment T_SC {lookup($3,@3.last_line);};
   |Assignment T_SC  {lookup($2,@2.last_line);};
   |Statements Switch_Stat
   |Switch_Stat
+  |Statements Foreach_Stat
+  |Foreach_Stat
   ;
+
+Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($6,@6.last_line);lookup($7,@7.last_line);lookup($9,@9.last_line);};
+
+Foreach_Blk : St1;
 
 Switch_Stat : T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($7,@7.last_line);};
 switch_exp : T_ID T_PL Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
@@ -81,8 +87,12 @@ Assignment: T_ID T_EQL Assignment {lookup($1,@1.last_line);lookup($2,@2.last_lin
 	| T_OB Assignment T_CB {lookup($2,@2.last_line);};
 	| T_MIN NUM  {lookup($2,@2.last_line);};
 	| T_MIN T_ID {lookup($2,@2.last_line);};
+  | T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($6,@6.last_line);lookup($7,@7.last_line);lookup($8,@8.last_line);};
 	| NUM  {lookup($1,@1.last_line);};
 	| T_ID {lookup($1,@1.last_line);};
+  ;
+Data : NUM {lookup($1,@1.last_line);};
+  |T_ID {lookup($1,@1.last_line);};
   ;
 %%
 
