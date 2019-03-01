@@ -30,8 +30,8 @@
 Start :T_START Statements T_END {lookup($1,@1.last_line);lookup($3,@3.last_line);};
   ;
 
-Statements: Statements Assignment T_SC
-  |Assignment T_SC
+Statements: Statements Assignment T_SC {lookup($3,@3.last_line);};
+  |Assignment T_SC  {lookup($2,@2.last_line);};
   |Statements Switch_Stat
   |Switch_Stat
   ;
@@ -120,7 +120,10 @@ void lookup(char *token,int line)
     if(!strcmp(st[i].name,token))
     {
       flag = 1;
-      break;
+      if(st[i].line != line)
+      {
+        st[i].line = line;
+      }
     }
   }
   if(flag == 0)
