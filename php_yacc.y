@@ -95,7 +95,7 @@ int main(int argc,char *argv[])
     printf("-----------------------Symbol Table-----------------\n");
     for(int i = 0;i < struct_index;i++)
     {
-      printf("Token %s Line number %d\n",st[i].name,st[i].line);
+      printf("%d Token %s Line number %d\n",i+1,st[i].name,st[i].line);
     }
   }
   else
