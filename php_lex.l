@@ -1,46 +1,49 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
+#define YYSTYPE char *
 #include "y.tab.h"
+#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno;
 %}
 D [0-9.]
 %option yylineno
 %%
-"<?php" {printf("Start\n");return T_START;}
-"?>" {printf("End\n");return T_END;}
-"<=" {return T_LE;}
-">=" {return T_GE;}
-"!==" {return T_NEC;}
-"<>"|"!=" {return T_NE;}
-"==" {return T_EQ;}
-"===" {return T_EQC;}
-"**" {return T_EXP;}
-"and"|"&&" {return T_AND;}
-"or"|"||" {return T_OR;}
-"xor" {return T_XOR;}
-"switch" {printf("switch\n");return T_SW;}
-"foreach" {return T_FE;}
-"as" {return T_AS;}
-"case" {return T_CASE;}
-"break" {printf("break\n");return T_BR;}
-"default" {return T_DF;}
-{D}+ {printf("Digit\n");yylval = atoi(yytext);return NUM;}
+"<?php" {yylval=strdup(yytext);return T_START;}
+"?>" {yylval=strdup(yytext);return T_END;}
+"<=" {yylval=strdup(yytext);return T_LE;}
+">=" {yylval=strdup(yytext);return T_GE;}
+"!==" {yylval=strdup(yytext);return T_NEC;}
+"<>"|"!=" {yylval=strdup(yytext);return T_NE;}
+"==" {yylval=strdup(yytext);return T_EQ;}
+"===" {yylval=strdup(yytext);return T_EQC;}
+"**" {yylval=strdup(yytext);return T_EXP;}
+"and"|"&&" {yylval=strdup(yytext);return T_AND;}
+"or"|"||" {yylval=strdup(yytext);return T_OR;}
+"xor" {yylval=strdup(yytext);return T_XOR;}
+"switch" {yylval=strdup(yytext);return T_SW;}
+"foreach" {yylval=strdup(yytext);return T_FE;}
+"as" {yylval=strdup(yytext);return T_AS;}
+"case" {yylval=strdup(yytext);return T_CASE;}
+"break" {yylval=strdup(yytext);return T_BR;}
+"default" {yylval=strdup(yytext);return T_DF;}
+{D}+ {yylval=strdup(yytext);return NUM;}
 [ \t\n] {;}
-"<" {return T_LT;}
-">" {return T_GT;}
-"!" {return T_NOT;}
-"{" {return T_OP;}
-"}" {return T_CP;}
-"(" {printf("Open braces\n");return T_OB;}
-")" {return T_CB;}
-";" {printf("Semicolon\n");return T_SC;}
-":" {return T_C;}
-"+" {printf("Plus\n");return T_PL;}
-"-" {return T_MIN;}
-"*" {return T_STAR;}
-"/" {return T_DIV;}
-"%" {return T_MOD;}
-"=" {printf("Equal\n");return T_EQL;}
-"$"[_a-zA-Z][_a-zA-Z0-9]* {printf("Identifier\n");return T_ID;}
+"<" {yylval=strdup(yytext);return T_LT;}
+">" {yylval=strdup(yytext);return T_GT;}
+"!" {yylval=strdup(yytext);return T_NOT;}
+"{" {yylval=strdup(yytext);return T_OP;}
+"}" {yylval=strdup(yytext);return T_CP;}
+"(" {yylval=strdup(yytext);return T_OB;}
+")" {yylval=strdup(yytext);return T_CB;}
+";" {yylval=strdup(yytext);return T_SC;}
+":" {yylval=strdup(yytext);return T_C;}
+"+" {yylval=strdup(yytext);return T_PL;}
+"-" {yylval=strdup(yytext);return T_MIN;}
+"*" {yylval=strdup(yytext);return T_STAR;}
+"/" {yylval=strdup(yytext);return T_DIV;}
+"%" {yylval=strdup(yytext);return T_MOD;}
+"=" {yylval=strdup(yytext);return T_EQL;}
+"$"[_a-zA-Z][_a-zA-Z0-9]* {yylval=strdup(yytext);return T_ID;}
 . {printf("Did not match any valid token");return yytext[0];};
 %%
 int yywrap()

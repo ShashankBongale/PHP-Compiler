@@ -522,9 +522,12 @@ char *yytext;
 #line 1 "php_lex.l"
 #line 2 "php_lex.l"
 #include <stdio.h>
+#include <stdlib.h>
+#define YYSTYPE char *
 #include "y.tab.h"
-#line 527 "lex.yy.c"
-#line 528 "lex.yy.c"
+#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno;
+#line 530 "lex.yy.c"
+#line 531 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -741,9 +744,9 @@ YY_DECL
 		}
 
 	{
-#line 7 "php_lex.l"
+#line 10 "php_lex.l"
 
-#line 747 "lex.yy.c"
+#line 750 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -812,196 +815,196 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 8 "php_lex.l"
-{printf("Start\n");return T_START;}
+#line 11 "php_lex.l"
+{yylval=strdup(yytext);return T_START;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "php_lex.l"
-{printf("End\n");return T_END;}
+#line 12 "php_lex.l"
+{yylval=strdup(yytext);return T_END;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 10 "php_lex.l"
-{return T_LE;}
+#line 13 "php_lex.l"
+{yylval=strdup(yytext);return T_LE;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 11 "php_lex.l"
-{return T_GE;}
+#line 14 "php_lex.l"
+{yylval=strdup(yytext);return T_GE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "php_lex.l"
-{return T_NEC;}
+#line 15 "php_lex.l"
+{yylval=strdup(yytext);return T_NEC;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 13 "php_lex.l"
-{return T_NE;}
+#line 16 "php_lex.l"
+{yylval=strdup(yytext);return T_NE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 14 "php_lex.l"
-{return T_EQ;}
+#line 17 "php_lex.l"
+{yylval=strdup(yytext);return T_EQ;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 15 "php_lex.l"
-{return T_EQC;}
+#line 18 "php_lex.l"
+{yylval=strdup(yytext);return T_EQC;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 16 "php_lex.l"
-{return T_EXP;}
+#line 19 "php_lex.l"
+{yylval=strdup(yytext);return T_EXP;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 17 "php_lex.l"
-{return T_AND;}
+#line 20 "php_lex.l"
+{yylval=strdup(yytext);return T_AND;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 18 "php_lex.l"
-{return T_OR;}
+#line 21 "php_lex.l"
+{yylval=strdup(yytext);return T_OR;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 19 "php_lex.l"
-{return T_XOR;}
+#line 22 "php_lex.l"
+{yylval=strdup(yytext);return T_XOR;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 20 "php_lex.l"
-{printf("switch\n");return T_SW;}
+#line 23 "php_lex.l"
+{yylval=strdup(yytext);return T_SW;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 21 "php_lex.l"
-{return T_FE;}
+#line 24 "php_lex.l"
+{yylval=strdup(yytext);return T_FE;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 22 "php_lex.l"
-{return T_AS;}
+#line 25 "php_lex.l"
+{yylval=strdup(yytext);return T_AS;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 23 "php_lex.l"
-{return T_CASE;}
+#line 26 "php_lex.l"
+{yylval=strdup(yytext);return T_CASE;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 24 "php_lex.l"
-{printf("break\n");return T_BR;}
+#line 27 "php_lex.l"
+{yylval=strdup(yytext);return T_BR;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 25 "php_lex.l"
-{return T_DF;}
+#line 28 "php_lex.l"
+{yylval=strdup(yytext);return T_DF;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 26 "php_lex.l"
-{printf("Digit\n");yylval = atoi(yytext);return NUM;}
+#line 29 "php_lex.l"
+{yylval=strdup(yytext);return NUM;}
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 27 "php_lex.l"
+#line 30 "php_lex.l"
 {;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 28 "php_lex.l"
-{return T_LT;}
+#line 31 "php_lex.l"
+{yylval=strdup(yytext);return T_LT;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 29 "php_lex.l"
-{return T_GT;}
+#line 32 "php_lex.l"
+{yylval=strdup(yytext);return T_GT;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 30 "php_lex.l"
-{return T_NOT;}
+#line 33 "php_lex.l"
+{yylval=strdup(yytext);return T_NOT;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 31 "php_lex.l"
-{return T_OP;}
+#line 34 "php_lex.l"
+{yylval=strdup(yytext);return T_OP;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 32 "php_lex.l"
-{return T_CP;}
+#line 35 "php_lex.l"
+{yylval=strdup(yytext);return T_CP;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 33 "php_lex.l"
-{printf("Open braces\n");return T_OB;}
+#line 36 "php_lex.l"
+{yylval=strdup(yytext);return T_OB;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 34 "php_lex.l"
-{return T_CB;}
+#line 37 "php_lex.l"
+{yylval=strdup(yytext);return T_CB;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 35 "php_lex.l"
-{printf("Semicolon\n");return T_SC;}
+#line 38 "php_lex.l"
+{yylval=strdup(yytext);return T_SC;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 36 "php_lex.l"
-{return T_C;}
+#line 39 "php_lex.l"
+{yylval=strdup(yytext);return T_C;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 37 "php_lex.l"
-{printf("Plus\n");return T_PL;}
+#line 40 "php_lex.l"
+{yylval=strdup(yytext);return T_PL;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 38 "php_lex.l"
-{return T_MIN;}
+#line 41 "php_lex.l"
+{yylval=strdup(yytext);return T_MIN;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 39 "php_lex.l"
-{return T_STAR;}
+#line 42 "php_lex.l"
+{yylval=strdup(yytext);return T_STAR;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 40 "php_lex.l"
-{return T_DIV;}
+#line 43 "php_lex.l"
+{yylval=strdup(yytext);return T_DIV;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 41 "php_lex.l"
-{return T_MOD;}
+#line 44 "php_lex.l"
+{yylval=strdup(yytext);return T_MOD;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 42 "php_lex.l"
-{printf("Equal\n");return T_EQL;}
+#line 45 "php_lex.l"
+{yylval=strdup(yytext);return T_EQL;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 43 "php_lex.l"
-{printf("Identifier\n");return T_ID;}
+#line 46 "php_lex.l"
+{yylval=strdup(yytext);return T_ID;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 44 "php_lex.l"
-{printf("Did not match any valid tokenn");return yytext[0];};
+#line 47 "php_lex.l"
+{printf("Did not match any valid token");return yytext[0];};
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 45 "php_lex.l"
+#line 48 "php_lex.l"
 ECHO;
 	YY_BREAK
-#line 1005 "lex.yy.c"
+#line 1008 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2018,7 +2021,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 45 "php_lex.l"
+#line 48 "php_lex.l"
 
 int yywrap()
 {

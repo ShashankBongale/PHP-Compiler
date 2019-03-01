@@ -56,30 +56,30 @@ extern int yydebug;
     T_AND = 266,
     T_OR = 267,
     T_XOR = 268,
-    T_SW = 269,
-    T_FE = 270,
-    T_AS = 271,
-    T_CASE = 272,
-    T_BR = 273,
-    T_DF = 274,
-    NUM = 275,
-    T_LT = 276,
-    T_GT = 277,
-    T_NOT = 278,
-    T_OP = 279,
-    T_CP = 280,
-    T_OB = 281,
-    T_CB = 282,
-    T_SC = 283,
-    T_C = 284,
-    T_PL = 285,
-    T_MIN = 286,
-    T_STAR = 287,
-    T_DIV = 288,
-    T_MOD = 289,
-    T_EQL = 290,
-    T_EQ = 291,
-    T_ID = 292
+    T_FE = 269,
+    T_AS = 270,
+    T_CASE = 271,
+    T_BR = 272,
+    T_DF = 273,
+    NUM = 274,
+    T_LT = 275,
+    T_GT = 276,
+    T_NOT = 277,
+    T_OP = 278,
+    T_CP = 279,
+    T_OB = 280,
+    T_CB = 281,
+    T_SC = 282,
+    T_C = 283,
+    T_PL = 284,
+    T_MIN = 285,
+    T_STAR = 286,
+    T_DIV = 287,
+    T_MOD = 288,
+    T_EQL = 289,
+    T_EQ = 290,
+    T_ID = 291,
+    T_SW = 292
   };
 #endif
 /* Tokens.  */
@@ -94,30 +94,30 @@ extern int yydebug;
 #define T_AND 266
 #define T_OR 267
 #define T_XOR 268
-#define T_SW 269
-#define T_FE 270
-#define T_AS 271
-#define T_CASE 272
-#define T_BR 273
-#define T_DF 274
-#define NUM 275
-#define T_LT 276
-#define T_GT 277
-#define T_NOT 278
-#define T_OP 279
-#define T_CP 280
-#define T_OB 281
-#define T_CB 282
-#define T_SC 283
-#define T_C 284
-#define T_PL 285
-#define T_MIN 286
-#define T_STAR 287
-#define T_DIV 288
-#define T_MOD 289
-#define T_EQL 290
-#define T_EQ 291
-#define T_ID 292
+#define T_FE 269
+#define T_AS 270
+#define T_CASE 271
+#define T_BR 272
+#define T_DF 273
+#define NUM 274
+#define T_LT 275
+#define T_GT 276
+#define T_NOT 277
+#define T_OP 278
+#define T_CP 279
+#define T_OB 280
+#define T_CB 281
+#define T_SC 282
+#define T_C 283
+#define T_PL 284
+#define T_MIN 285
+#define T_STAR 286
+#define T_DIV 287
+#define T_MOD 288
+#define T_EQL 289
+#define T_EQ 290
+#define T_ID 291
+#define T_SW 292
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -126,9 +126,23 @@ typedef int YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE YYLTYPE;
+struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+};
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 extern YYSTYPE yylval;
-
+extern YYLTYPE yylloc;
 int yyparse (void);
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */

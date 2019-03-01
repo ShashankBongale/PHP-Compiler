@@ -12,13 +12,4 @@ switch($a+$b*10+100)
   case 30: $a = 40;
   default:$a = 40;
 }
-switch($a)
-{
-  case 10:$a=10;
-          $b = $a + 20;
-          break;
-  case 30: $a = 40;
-  break;
-  default:$a = 40;
-}
 ?>
