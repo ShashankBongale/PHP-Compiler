@@ -15,5 +15,7 @@ switch($a+$b*10+100)
 $b = array(10,20);
 foreach($colors as $value) {
     $a = $a + 10;
+    $a = 10+85;
+    $a = $b + 100;
 }
 ?>

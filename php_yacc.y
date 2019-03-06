@@ -43,14 +43,14 @@ Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1
 Foreach_Blk : St1;
 
 Switch_Stat : T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($7,@7.last_line);};
-switch_exp : T_ID T_PL Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_MIN Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_STAR Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_DIV Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | NUM T_PL Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | NUM T_MIN Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | NUM T_STAR Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | NUM T_DIV Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+switch_exp : T_ID T_PL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | T_ID T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | T_ID T_STAR Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | T_ID T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | NUM T_PL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | NUM T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | NUM T_STAR Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | NUM T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
   |NUM {lookup($1,@1.last_line);};
 	|T_ID {lookup($1,@1.last_line);};
   ;
@@ -74,23 +74,21 @@ St1 : St1 exp T_SC {lookup($3,@3.last_line);};
 
 exp :Assignment
 	;
+Assignment: T_ID T_EQL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 
-Assignment: T_ID T_EQL Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| T_ID T_PL Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| T_ID T_MIN Assignment  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| T_ID T_STAR Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| T_ID T_DIV Assignment  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| NUM T_PL Assignment  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| NUM T_MIN Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| NUM T_STAR Assignment  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| NUM T_DIV Assignment {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-	| T_OB Assignment T_CB {lookup($2,@2.last_line);};
-	| T_MIN NUM  {lookup($2,@2.last_line);};
-	| T_MIN T_ID {lookup($2,@2.last_line);};
-  | T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($6,@6.last_line);lookup($7,@7.last_line);lookup($8,@8.last_line);};
-	| NUM  {lookup($1,@1.last_line);};
-	| T_ID {lookup($1,@1.last_line);};
-  ;
+Rightpart:  T_ID T_PL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| T_ID T_MIN Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| T_ID T_STAR Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| T_ID T_DIV Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| NUM T_PL Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| NUM T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| NUM T_STAR Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| NUM T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| T_OB Rightpart T_CB {lookup($2,@2.last_line);};
+| T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);};
+| NUM  {lookup($1,@1.last_line);};
+| T_ID {lookup($1,@1.last_line);};
+
 Data : NUM {lookup($1,@1.last_line);};
   |T_ID {lookup($1,@1.last_line);};
   ;
