@@ -92,11 +92,14 @@ Rightpart:  T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_li
 | NUM T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 | NUM T_STAR Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 | NUM T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);};//check
+| T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($6,@6.last_line);};
+| T_ARR T_OB Data T_COM T_ID T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($4,@4.last_line);search_id($5,@5.last_line);lookup($5,@5.last_line);lookup($6,@6.last_line);};
 | NUM  {lookup($1,@1.last_line);};
 | T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
 
-Data : NUM {lookup($1,@1.last_line);};
+Data :Data T_COM NUM {lookup($3,@3.last_line);};
+  |NUM {lookup($1,@1.last_line);};
+  |Data T_COM T_ID {search_id($3,@3.last_line);lookup($3,@3.last_line);};
   |T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
   ;
 

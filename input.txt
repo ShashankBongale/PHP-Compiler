@@ -10,14 +10,14 @@ switch($a+$b)
           break;
   case 20:$c = 25 + $b;
           echo "shashan";
+          echo "shashankm";
           break;
 }
-$col = array(10,20);
+$col = array(10,20,30,40,50,60,2.14,$a,$a);
 foreach($col as $aq)
 {
   $a = $a + 10;
   echo "sshank";
 }
 echo "shashaasdnk";
-
 ?>
