@@ -44,8 +44,10 @@ D [0-9.]
 "," {yylval=strdup(yytext);return T_COM;}
 "%" {yylval=strdup(yytext);return T_MOD;}
 "=" {yylval=strdup(yytext);return T_EQL;}
+"echo" {yylval=strdup(yytext);return T_ECH;}
 "array" {yylval=strdup(yytext);return T_ARR;}
 "$"[_a-zA-Z][_a-zA-Z0-9]* {yylval=strdup(yytext);return T_ID;}
+\"(\\.|[^"\\])*\" {yylval=strdup(yytext);return T_STR;}
 . {printf("Did not match any valid token");return yytext[0];};
 %%
 int yywrap()

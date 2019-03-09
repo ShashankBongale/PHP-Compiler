@@ -81,7 +81,9 @@ extern int yydebug;
     T_ID = 291,
     T_SW = 292,
     T_COM = 293,
-    T_ARR = 294
+    T_ARR = 294,
+    T_STR = 295,
+    T_ECH = 296
   };
 #endif
 /* Tokens.  */
@@ -122,6 +124,8 @@ extern int yydebug;
 #define T_SW 292
 #define T_COM 293
 #define T_ARR 294
+#define T_STR 295
+#define T_ECH 296
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

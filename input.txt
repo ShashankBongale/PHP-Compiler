@@ -2,11 +2,22 @@
 $a = 10 + 100;
 $b = 45;
 $b = $b + 10;
+echo "shashaasdnasdk";
 switch($a+$b)
 {
   case 10:$b = 10;
+          echo "shashank";
           break;
   case 20:$c = 25 + $b;
+          echo "shashan";
           break;
 }
+$col = array(10,20);
+foreach($col as $aq)
+{
+  $a = $a + 10;
+  echo "sshank";
+}
+echo "shashaasdnk";
+
 ?>

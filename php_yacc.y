@@ -23,7 +23,7 @@
 %token T_START T_END T_LE T_GE T_NEC T_NE T_EQC T_EXP T_AND
 %token T_OR T_XOR T_FE T_AS T_CASE T_BR T_DF NUM T_LT T_GT
 %token T_NOT T_OP T_CP T_OB T_CB T_SC T_C T_PL T_MIN T_STAR T_DIV T_MOD T_EQL
-%token T_EQ T_ID T_SW T_COM T_ARR
+%token T_EQ T_ID T_SW T_COM T_ARR T_STR T_ECH
 
 %start Start
 %%
@@ -37,9 +37,13 @@ Statements: Statements Assignment T_SC {lookup($3,@3.last_line);};
   |Switch_Stat
   |Statements Foreach_Stat
   |Foreach_Stat
+  |Statements Echo
+  |Echo
+  ;
+Echo:T_ECH T_STR T_SC {lookup($1,@1.last_line);lookup($2,@2.last_line);};
   ;
 
-Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($6,@6.last_line);lookup($7,@7.last_line);lookup($9,@9.last_line);};
+Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line);lookup($2,@2.last_line);search_id($3,@3.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($6,@6.last_line);lookup($7,@7.last_line);lookup($9,@9.last_line);};
 
 Foreach_Blk : St1;
 
@@ -71,11 +75,13 @@ DEF : T_DF T_C St1 T_BR T_SC  {lookup($1,@1.last_line);lookup($2,@2.last_line);l
 
 St1 : St1 exp T_SC {lookup($3,@3.last_line);};
 	| exp T_SC {lookup($2,@2.last_line);};
-	;
+  |St1 T_ECH T_STR T_SC {lookup($2,@2.last_line);lookup($3,@3.last_line);};
+  |T_ECH T_STR T_SC {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  ;
 
 exp :Assignment
-	;
-  
+  ;
+
 Assignment: T_ID T_EQL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 
 Rightpart:  T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
