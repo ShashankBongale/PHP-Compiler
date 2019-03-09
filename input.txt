@@ -1,21 +1,5 @@
 <?php
-$a = 10 + 20;
-$b = 20;
-$a = $b - 10;
-$c = $a + $b;
-$d = 10 * 10 * 10;
-switch($a+$b*10+100)
-{
-  case 10:$a=10;
-          $b = $a + 20;
-          break;
-  case 30: $a = 40;
-  default:$a = 40;
-}
-$b = array(10,20);
-foreach($colors as $value) {
-    $a = $a + 10;
-    $a = 10+85;
-    $a = $b + 100;
-}
+$a = 10 + 100;
+$b = 45;
+$b = $b + 10;
 ?>

@@ -7,13 +7,14 @@
   void yyerror(char *);
   void lookup(char *,int );
   void insert(char *,int );
+  void search_id(char *,int );
   extern FILE *yyin;
   extern int yylineno;
   extern char *yytext;
   typedef struct symbol_table
   {
     int line;
-    char name[32];
+    char name[31];
   }ST;
   int struct_index = 0;
   ST st[10000];
@@ -43,16 +44,16 @@ Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1
 Foreach_Blk : St1;
 
 Switch_Stat : T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($7,@7.last_line);};
-switch_exp : T_ID T_PL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_STAR Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+switch_exp : T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | T_ID T_MIN Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | T_ID T_STAR Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  | T_ID T_DIV Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
   | NUM T_PL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
   | NUM T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
   | NUM T_STAR Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
   | NUM T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
   |NUM {lookup($1,@1.last_line);};
-	|T_ID {lookup($1,@1.last_line);};
+	|T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
   ;
 
 Switch_Blk : CaseBlock
@@ -76,10 +77,10 @@ exp :Assignment
 	;
 Assignment: T_ID T_EQL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 
-Rightpart:  T_ID T_PL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_ID T_MIN Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_ID T_STAR Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_ID T_DIV Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+Rightpart:  T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| T_ID T_MIN Rightpart  {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| T_ID T_STAR Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
+| T_ID T_DIV Rightpart  {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
 | NUM T_PL Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 | NUM T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 | NUM T_STAR Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
@@ -87,11 +88,12 @@ Rightpart:  T_ID T_PL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line)
 | T_OB Rightpart T_CB {lookup($2,@2.last_line);};
 | T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);};
 | NUM  {lookup($1,@1.last_line);};
-| T_ID {lookup($1,@1.last_line);};
+| T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
 
 Data : NUM {lookup($1,@1.last_line);};
-  |T_ID {lookup($1,@1.last_line);};
+  |T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
   ;
+
 %%
 
 int main(int argc,char *argv[])
@@ -144,4 +146,21 @@ void insert(char *token,int line)
   strcpy(st[struct_index].name,token);
   st[struct_index].line = line;
   struct_index++;
+}
+void search_id(char *token,int lineno)
+{
+  int flag = 0;
+  for(int i = 0;i < struct_index;i++)
+  {
+    if(!strcmp(st[i].name,token))
+    {
+      flag = 1;
+      return;
+    }
+  }
+  if(flag == 0)
+  {
+    printf("Error at line %d : %s is not defined\n",lineno,token);
+    exit(0);
+  }
 }
