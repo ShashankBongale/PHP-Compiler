@@ -75,6 +75,7 @@ St1 : St1 exp T_SC {lookup($3,@3.last_line);};
 
 exp :Assignment
 	;
+  
 Assignment: T_ID T_EQL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 
 Rightpart:  T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
@@ -85,8 +86,7 @@ Rightpart:  T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_li
 | NUM T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 | NUM T_STAR Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
 | NUM T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_OB Rightpart T_CB {lookup($2,@2.last_line);};
-| T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);};
+| T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);};//check
 | NUM  {lookup($1,@1.last_line);};
 | T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
 
