@@ -15,7 +15,7 @@ switch($a+$b)
 }
 $c = 10.4;
 $arr = array(11,22);
-$col = array($bbbb,10,20,30,$b,4050,60,2.14,$a);
+$col = array($b,10,20,30,$b,4050,60,2.14,$a);
 foreach($col as $aq)
 {
   $a = $a + 10;
