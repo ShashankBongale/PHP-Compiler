@@ -5,8 +5,8 @@
   #define YYSTYPE char *
   int yylex();
   void yyerror(char *);
-  void lookup(char *,int );
-  void insert(char *,int );
+  void lookup(char *,int ,int );
+  void insert(char *,int ,int );
   void search_id(char *,int );
   extern FILE *yyin;
   extern int yylineno;
@@ -15,6 +15,7 @@
   {
     int line;
     char name[31];
+    int flag_array;
   }ST;
   int struct_index = 0;
   ST st[10000];
@@ -28,79 +29,89 @@
 %start Start
 %%
 
-Start :T_START Statements T_END {lookup($1,@1.last_line);lookup($3,@3.last_line);};
+Start :T_START Statements T_END {lookup($1,@1.last_line,0);lookup($3,@3.last_line,0);};
   ;
 
-Statements: Statements Assignment T_SC {lookup($3,@3.last_line);};
-  |Assignment T_SC  {lookup($2,@2.last_line);};
+Statements: Statements Assignment T_SC {lookup($3,@3.last_line,0);};
+  |Assignment T_SC  {lookup($2,@2.last_line,0);};
   |Statements Switch_Stat
   |Switch_Stat
   |Statements Foreach_Stat
   |Foreach_Stat
   |Statements Echo
   |Echo
-  ;
-Echo:T_ECH T_STR T_SC {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+  |Statements Array_stat
+  |Array_stat
   ;
 
-Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line);lookup($2,@2.last_line);search_id($3,@3.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($6,@6.last_line);lookup($7,@7.last_line);lookup($9,@9.last_line);};
+Echo:T_ECH T_STR T_SC {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  ;
+
+Array_stat:T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($1,@1.last_line,1);lookup($2,@2.last_line,0);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($6,@6.last_line,0);lookup($7,@7.last_line,0);lookup($8,@8.last_line,0);};
+  |T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC{lookup($1,@1.last_line,1);lookup($2,@2.last_line,0);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($6,@6.last_line,0);search_id($7,@7.last_line);lookup($7,@7.last_line,0);lookup($8,@8.last_line,0);lookup($9,@9.last_line,0);};
+  ;
+
+Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);search_id($3,@3.last_line);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($5,@5.last_line,0);lookup($6,@6.last_line,0);lookup($7,@7.last_line,0);lookup($9,@9.last_line,0);};
 
 Foreach_Blk : St1;
 
-Switch_Stat : T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($7,@7.last_line);};
-switch_exp : T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_MIN Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_STAR Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | T_ID T_DIV Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | NUM T_PL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | NUM T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | NUM T_STAR Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  | NUM T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-  |NUM {lookup($1,@1.last_line);};
-	|T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
+Switch_Stat : T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);lookup($4,@4.last_line,0);lookup($5,@5.last_line,0);lookup($7,@7.last_line,0);};
+switch_exp : T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  | T_ID T_MIN Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  | T_ID T_STAR Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  | T_ID T_DIV Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  | NUM T_PL Rightpart {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  | NUM T_MIN Rightpart {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  | NUM T_STAR Rightpart {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  | NUM T_DIV Rightpart {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  |NUM {lookup($1,@1.last_line,0);};
+	|T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line,0);};
   ;
 
 Switch_Blk : CaseBlock
-  | CaseBlock DEF {lookup($2,@2.last_line);};
+  | CaseBlock DEF {lookup($2,@2.last_line,0);};
 	;
 
-CaseBlock :CaseBlock T_CASE NUM T_C St1 {lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);};
-  |CaseBlock T_CASE NUM T_C St1 T_BR T_SC {lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($6,@6.last_line);lookup($7,@7.last_line);};
+CaseBlock :CaseBlock T_CASE NUM T_C St1 {lookup($2,@2.last_line,0);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);};
+  |CaseBlock T_CASE NUM T_C St1 T_BR T_SC {lookup($2,@2.last_line,0);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($6,@6.last_line,0);lookup($7,@7.last_line,0);};
   |
 	;
 
-DEF : T_DF T_C St1 T_BR T_SC  {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($3,@3.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);};
-	|T_DF T_C St1  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+DEF : T_DF T_C St1 T_BR T_SC  {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($5,@5.last_line,0);};
+	|T_DF T_C St1  {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
 	;
 
-St1 : St1 exp T_SC {lookup($3,@3.last_line);};
-	| exp T_SC {lookup($2,@2.last_line);};
-  |St1 T_ECH T_STR T_SC {lookup($2,@2.last_line);lookup($3,@3.last_line);};
-  |T_ECH T_STR T_SC {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+St1 : St1 exp T_SC {lookup($3,@3.last_line,0);};
+	| exp T_SC {lookup($2,@2.last_line,0);};
+  |St1 T_ECH T_STR T_SC {lookup($2,@2.last_line,0);lookup($3,@3.last_line,0);};
+  |T_ECH T_STR T_SC {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+  |St1 T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($2,@2.last_line,1);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($5,@5.last_line,0);lookup($7,@7.last_line,0);lookup($8,@8.last_line,0);lookup($9,@9.last_line,0);lookup($10,@10.last_line,0);};
+  |T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($1,@1.last_line,1);lookup($2,@2.last_line,0);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($6,@6.last_line,0);lookup($7,@7.last_line,0);lookup($8,@8.last_line,0);lookup($9,@9.last_line,0);};
+  |St1 T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC {lookup($2,@2.last_line,1);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($5,@5.last_line,0);lookup($7,@7.last_line,0);search_id($8,@8.last_line);lookup($8,@8.last_line,0);lookup($9,@9.last_line,0);lookup($10,@10.last_line,0);};
+  |T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC {lookup($1,@1.last_line,1);lookup($2,@2.last_line,0);lookup($3,@3.last_line,0);lookup($4,@4.last_line,0);lookup($6,@6.last_line,0);search_id($7,@7.last_line);lookup($7,@7.last_line,0);lookup($8,@8.last_line,0);lookup($9,@9.last_line,0);};
   ;
 
 exp :Assignment
   ;
 
-Assignment: T_ID T_EQL Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
+Assignment: T_ID T_EQL Rightpart {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
 
-Rightpart:  T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_ID T_MIN Rightpart  {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_ID T_STAR Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_ID T_DIV Rightpart  {search_id($1,@1.last_line);lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| NUM T_PL Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| NUM T_MIN Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| NUM T_STAR Rightpart  {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| NUM T_DIV Rightpart {lookup($1,@1.last_line);lookup($2,@2.last_line);};
-| T_ARR T_OB Data T_COM NUM T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($4,@4.last_line);lookup($5,@5.last_line);lookup($6,@6.last_line);};
-| T_ARR T_OB Data T_COM T_ID T_CB {lookup($1,@1.last_line);lookup($2,@2.last_line);lookup($4,@4.last_line);search_id($5,@5.last_line);lookup($5,@5.last_line);lookup($6,@6.last_line);};
-| NUM  {lookup($1,@1.last_line);};
-| T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
+Rightpart:  T_ID T_PL Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+| T_ID T_MIN Rightpart  {search_id($1,@1.last_line);lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+| T_ID T_STAR Rightpart {search_id($1,@1.last_line);lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+| T_ID T_DIV Rightpart  {search_id($1,@1.last_line);lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+| NUM T_PL Rightpart  {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+| NUM T_MIN Rightpart {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+| NUM T_STAR Rightpart  {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+| NUM T_DIV Rightpart {lookup($1,@1.last_line,0);lookup($2,@2.last_line,0);};
+| NUM  {lookup($1,@1.last_line,0);};
+| T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line,0);};
+;
 
-Data :Data T_COM NUM {lookup($3,@3.last_line);};
-  |NUM {lookup($1,@1.last_line);};
-  |Data T_COM T_ID {search_id($3,@3.last_line);lookup($3,@3.last_line);};
-  |T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line);};
+Data :Data T_COM NUM {lookup($3,@3.last_line,0);};
+  |NUM {lookup($1,@1.last_line,0);};
+  |Data T_COM T_ID {search_id($3,@3.last_line);lookup($3,@3.last_line,0);};
+  |T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line,0);};
   ;
 
 %%
@@ -114,7 +125,7 @@ int main(int argc,char *argv[])
     printf("-----------------------Symbol Table-----------------\n");
     for(int i = 0;i < struct_index;i++)
     {
-      printf("%d Token %s Line number %d\n",i+1,st[i].name,st[i].line);
+      printf("%d Token %s Line number %d Is Array %d\n",i+1,st[i].name,st[i].line,st[i].flag_array);
     }
   }
   else
@@ -130,7 +141,7 @@ void yyerror(char *s)
   printf("Error :%s at %d \n",yytext,yylineno);
 }
 
-void lookup(char *token,int line)
+void lookup(char *token,int line,int is_array)
 {
   //printf("Token %s line number %d\n",token,line);
   int flag = 0;
@@ -147,13 +158,14 @@ void lookup(char *token,int line)
   }
   if(flag == 0)
   {
-    insert(token,line);
+    insert(token,line,is_array);
   }
 }
-void insert(char *token,int line)
+void insert(char *token,int line,int is_array)
 {
   strcpy(st[struct_index].name,token);
   st[struct_index].line = line;
+  st[struct_index].flag_array = is_array;
   struct_index++;
 }
 void search_id(char *token,int lineno)
