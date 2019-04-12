@@ -533,8 +533,8 @@ char *yytext;
 #line 1 "php_lex.l"
 #line 2 "php_lex.l"
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-#define YYSTYPE char *
 #include "y.tab.h"
 #define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno;
 #line 541 "lex.yy.c"
@@ -827,97 +827,97 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 11 "php_lex.l"
-{yylval=strdup(yytext);return T_START;}
+{strcpy(yylval.type.string,yytext);return T_START;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 12 "php_lex.l"
-{yylval=strdup(yytext);return T_END;}
+{strcpy(yylval.type.string,yytext);return T_END;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 13 "php_lex.l"
-{yylval=strdup(yytext);return T_LE;}
+{strcpy(yylval.type.string,yytext);return T_LE;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 14 "php_lex.l"
-{yylval=strdup(yytext);return T_GE;}
+{strcpy(yylval.type.string,yytext);return T_GE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 15 "php_lex.l"
-{yylval=strdup(yytext);return T_NEC;}
+{strcpy(yylval.type.string,yytext);return T_NEC;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 16 "php_lex.l"
-{yylval=strdup(yytext);return T_NE;}
+{strcpy(yylval.type.string,yytext);return T_NE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 17 "php_lex.l"
-{yylval=strdup(yytext);return T_EQ;}
+{strcpy(yylval.type.string,yytext);return T_EQ;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 18 "php_lex.l"
-{yylval=strdup(yytext);return T_EQC;}
+{strcpy(yylval.type.string,yytext);return T_EQC;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 19 "php_lex.l"
-{yylval=strdup(yytext);return T_EXP;}
+{strcpy(yylval.type.string,yytext);return T_EXP;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 20 "php_lex.l"
-{yylval=strdup(yytext);return T_AND;}
+{strcpy(yylval.type.string,yytext);return T_AND;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 21 "php_lex.l"
-{yylval=strdup(yytext);return T_OR;}
+{strcpy(yylval.type.string,yytext);return T_OR;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 22 "php_lex.l"
-{yylval=strdup(yytext);return T_XOR;}
+{strcpy(yylval.type.string,yytext);return T_XOR;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 23 "php_lex.l"
-{yylval=strdup(yytext);return T_SW;}
+{strcpy(yylval.type.string,yytext);return T_SW;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 24 "php_lex.l"
-{yylval=strdup(yytext);return T_FE;}
+{strcpy(yylval.type.string,yytext);return T_FE;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 25 "php_lex.l"
-{yylval=strdup(yytext);return T_AS;}
+{strcpy(yylval.type.string,yytext);return T_AS;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 26 "php_lex.l"
-{yylval=strdup(yytext);return T_CASE;}
+{strcpy(yylval.type.string,yytext);return T_CASE;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 27 "php_lex.l"
-{yylval=strdup(yytext);return T_BR;}
+{strcpy(yylval.type.string,yytext);return T_BR;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 28 "php_lex.l"
-{yylval=strdup(yytext);return T_DF;}
+{strcpy(yylval.type.string,yytext);return T_DF;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 29 "php_lex.l"
-{yylval=strdup(yytext);return NUM;}
+{strcpy(yylval.type.string,yytext);return NUM;}
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
@@ -928,103 +928,103 @@ YY_RULE_SETUP
 case 21:
 YY_RULE_SETUP
 #line 31 "php_lex.l"
-{yylval=strdup(yytext);return T_LT;}
+{strcpy(yylval.type.string,yytext);return T_LT;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 32 "php_lex.l"
-{yylval=strdup(yytext);return T_GT;}
+{strcpy(yylval.type.string,yytext);return T_GT;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 33 "php_lex.l"
-{yylval=strdup(yytext);return T_NOT;}
+{strcpy(yylval.type.string,yytext);return T_NOT;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 34 "php_lex.l"
-{yylval=strdup(yytext);return T_OP;}
+{strcpy(yylval.type.string,yytext);return T_OP;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 35 "php_lex.l"
-{yylval=strdup(yytext);return T_CP;}
+{strcpy(yylval.type.string,yytext);return T_CP;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 36 "php_lex.l"
-{yylval=strdup(yytext);return T_OB;}
+{strcpy(yylval.type.string,yytext);return T_OB;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 37 "php_lex.l"
-{yylval=strdup(yytext);return T_CB;}
+{strcpy(yylval.type.string,yytext);return T_CB;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 38 "php_lex.l"
-{yylval=strdup(yytext);return T_SC;}
+{strcpy(yylval.type.string,yytext);return T_SC;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 39 "php_lex.l"
-{yylval=strdup(yytext);return T_C;}
+{strcpy(yylval.type.string,yytext);return T_C;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 40 "php_lex.l"
-{yylval=strdup(yytext);return T_PL;}
+{strcpy(yylval.type.string,yytext);return T_PL;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 41 "php_lex.l"
-{yylval=strdup(yytext);return T_MIN;}
+{strcpy(yylval.type.string,yytext);return T_MIN;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 42 "php_lex.l"
-{yylval=strdup(yytext);return T_STAR;}
+{strcpy(yylval.type.string,yytext);return T_STAR;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 43 "php_lex.l"
-{yylval=strdup(yytext);return T_DIV;}
+{strcpy(yylval.type.string,yytext);return T_DIV;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 44 "php_lex.l"
-{yylval=strdup(yytext);return T_COM;}
+{strcpy(yylval.type.string,yytext);return T_COM;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 45 "php_lex.l"
-{yylval=strdup(yytext);return T_MOD;}
+{strcpy(yylval.type.string,yytext);return T_MOD;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 46 "php_lex.l"
-{yylval=strdup(yytext);return T_EQL;}
+{strcpy(yylval.type.string,yytext);return T_EQL;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 47 "php_lex.l"
-{yylval=strdup(yytext);return T_ECH;}
+{strcpy(yylval.type.string,yytext);return T_ECH;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 48 "php_lex.l"
-{yylval=strdup(yytext);return T_ARR;}
+{strcpy(yylval.type.string,yytext);return T_ARR;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 49 "php_lex.l"
-{yylval=strdup(yytext);return T_ID;}
+{strcpy(yylval.type.string,yytext);return T_ID;}
 	YY_BREAK
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
 #line 50 "php_lex.l"
-{yylval=strdup(yytext);return T_STR;}
+{strcpy(yylval.type.string,yytext);return T_STR;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
