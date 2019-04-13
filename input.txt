@@ -18,8 +18,9 @@ $arr = array(11,22);
 $col = array($b,10,20,30,$b,4050,60,2.14,$a);
 foreach($col as $aq)
 {
-  $a = $a + 10;
-  echo "sshank";
+  $a = $a + $arr[1];
+  $a = $a + $arr[$b] * $arr[2];
+  $z = 10 + 20;
 }
 echo "shashaasdnk";
 ?>

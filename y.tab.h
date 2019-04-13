@@ -39,23 +39,6 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
-/* "%code requires" blocks.  */
-#line 29 "php_yacc.y" /* yacc.c:1909  */
-
-  typedef struct node
-  {
-    struct node *left;
-    struct node  *right;
-    char *operand;
-  }node;
-
-  typedef struct data_type
-  {
-    char string[31];
-    node *tree_node;
-  }data_type;
-
-#line 59 "y.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -100,7 +83,9 @@ extern int yydebug;
     T_COM = 293,
     T_ARR = 294,
     T_STR = 295,
-    T_ECH = 296
+    T_ECH = 296,
+    T_SQO = 297,
+    T_SQC = 298
   };
 #endif
 /* Tokens.  */
@@ -143,20 +128,12 @@ extern int yydebug;
 #define T_ARR 294
 #define T_STR 295
 #define T_ECH 296
+#define T_SQO 297
+#define T_SQC 298
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
-union YYSTYPE
-{
-#line 45 "php_yacc.y" /* yacc.c:1909  */
-
-  data_type type;
-
-#line 157 "y.tab.h" /* yacc.c:1909  */
-};
-
-typedef union YYSTYPE YYSTYPE;
+typedef int YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
