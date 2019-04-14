@@ -75,6 +75,8 @@ switch_exp : switch_exp T_PL switch_exp {$$=build_tree($2,$1,$3);};
 	|switch_exp T_DIV switch_exp {$$=build_tree($2,$1,$3);};
 	|T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line,0,4);$$=build_tree($1,NULL,NULL);};
 	|NUM {lookup($1,@1.last_line,0,3);$$=build_tree($1,NULL,NULL);};
+  |T_ID T_SQO NUM T_SQC {is_arr($1,@1.last_line);char *arr_string=(char *)malloc(sizeof(char)*40);strcat(arr_string,$1);strcat(arr_string,$2);strcat(arr_string,$3);strcat(arr_string,$4);$$=build_tree(arr_string,NULL,NULL);};
+  |T_ID T_SQO T_ID T_SQC {is_arr($1,@1.last_line);search_id($3,@3.last_line);char *arr_str = (char *)malloc(sizeof(char)*40);strcat(arr_str,$1);strcat(arr_str,$2);strcat(arr_str,$3);strcat(arr_str,$4);$$=build_tree(arr_str,NULL,NULL);};
   ;
 
 Switch_Blk : CaseBlock
@@ -200,6 +202,11 @@ void search_id(char *token,int lineno)
   {
     if(!strcmp(st[i].name,token))
     {
+      /* if(st[i].flag_array == 1)
+      {
+        printf("Error at line %d : array index is not defined\n",lineno,token);
+        exit(0);
+      } */
       flag = 1;
       return;
     }
