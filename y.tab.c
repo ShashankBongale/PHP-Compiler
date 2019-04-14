@@ -2070,11 +2070,11 @@ void search_id(char *token,int lineno)
   {
     if(!strcmp(st[i].name,token))
     {
-      if(st[i].flag_array == 1)
+      /* if(st[i].flag_array == 1)
       {
         printf("Error at line %d : array index is not defined\n",lineno,token);
         exit(0);
-      }
+      } */
       flag = 1;
       return;
     }
