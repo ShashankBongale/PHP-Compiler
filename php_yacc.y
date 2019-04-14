@@ -30,6 +30,9 @@
   tree_node *build_tree(char *,tree_node *,tree_node *);
   void printTree(tree_node *);
   int tree_count = 0;
+  tree_node *exp_arr[1000];
+  int exp_index = 0;
+  void print_for();
 %}
 
 %token T_START T_END T_LE T_GE T_NEC T_NE T_EQC T_EXP T_AND
@@ -48,8 +51,8 @@ Statements: Statements Assignment T_SC {lookup($3,@3.last_line,0,5);};
   |Assignment T_SC  {lookup($2,@2.last_line,0,5);};
   |Statements Switch_Stat
   |Switch_Stat
-  |Statements Foreach_Stat
-  |Foreach_Stat
+  |Statements Foreach_Stat {exp_index = 0;};
+  |Foreach_Stat {exp_index = 0;};
   |Statements Echo
   |Echo
   |Statements Array_stat
@@ -63,9 +66,34 @@ Array_stat:T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($1,@1.last_lin
   |T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC{lookup($1,@1.last_line,1,4);lookup($2,@2.last_line,0,1);lookup($3,@3.last_line,0,0);lookup($4,@4.last_line,0,5);lookup($6,@6.last_line,0,5);search_id($7,@7.last_line);lookup($7,@7.last_line,0,4);lookup($8,@8.last_line,0,5);lookup($9,@9.last_line,0,5);};
   ;
 
-Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);search_id($3,@3.last_line);lookup($3,@3.last_line,0,4);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,4);lookup($6,@6.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($9,@9.last_line,0,5);};
+Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);search_id($3,@3.last_line);lookup($3,@3.last_line,0,4);tree_node *as_left = build_tree($3,NULL,NULL);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,4);
+  tree_node *as_right = build_tree($5,NULL,NULL);tree_node *as_sub = build_tree($4,as_left,as_right);tree_node *for_node = build_tree($1,as_sub,as_sub);printTree(for_node);printf("\n");lookup($6,@6.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($9,@9.last_line,0,5);print_for();};
 
-Foreach_Blk : St1;
+Foreach_Blk : foreach_St1;
+
+foreach_St1 : foreach_St1 foreach_exp T_SC {lookup($3,@3.last_line,0,5);};
+	| foreach_exp T_SC {lookup($2,@2.last_line,0,5);};
+  |foreach_St1 T_ECH T_STR T_SC {lookup($2,@2.last_line,0,0);lookup($3,@3.last_line,0,6);lookup($4,@4.last_line,0,5);};
+  |T_ECH T_STR T_SC {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,6);lookup($2,@2.last_line,0,5);};
+  |foreach_St1 T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($2,@2.last_line,1,4);lookup($3,@3.last_line,0,1);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($8,@8.last_line,0,3);lookup($9,@9.last_line,0,5);lookup($10,@10.last_line,0,5);};
+  |T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($1,@1.last_line,1,4);lookup($2,@2.last_line,0,1);lookup($3,@3.last_line,0,0);lookup($4,@4.last_line,0,5);lookup($6,@6.last_line,0,5);lookup($7,@7.last_line,0,3);lookup($8,@8.last_line,0,5);lookup($9,@9.last_line,0,5);};
+  |foreach_St1 T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC {lookup($2,@2.last_line,1,4);lookup($3,@3.last_line,0,1);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);search_id($8,@8.last_line);lookup($8,@8.last_line,0,4);lookup($9,@9.last_line,0,5);lookup($10,@10.last_line,0,5);};
+  |T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC {lookup($1,@1.last_line,1,4);lookup($2,@2.last_line,0,1);lookup($3,@3.last_line,0,0);lookup($4,@4.last_line,0,5);lookup($6,@6.last_line,0,5);search_id($7,@7.last_line);lookup($7,@7.last_line,0,4);lookup($8,@8.last_line,0,5);lookup($9,@9.last_line,0,5);};
+  ;
+
+foreach_exp :foreach_Assignment
+  ;
+foreach_Assignment: T_ID T_EQL foreach_exp1 {lookup($1,@1.last_line,0,4);tree_node *left_part = build_tree($1,NULL,NULL);$$ = build_tree($2,left_part,$3);exp_arr[exp_index] = $$;exp_index = exp_index + 1;};
+
+foreach_exp1 : foreach_exp1 T_PL foreach_exp1 {$$=build_tree($2,$1,$3);};
+	|foreach_exp1 T_MIN foreach_exp1 {$$=build_tree($2,$1,$3);};
+	|foreach_exp1 T_STAR foreach_exp1 {$$=build_tree($2,$1,$3);};
+	|foreach_exp1 T_DIV foreach_exp1 {$$=build_tree($2,$1,$3);};
+  |T_ID T_SQO NUM T_SQC {is_arr($1,@1.last_line);char *arr_string=(char *)malloc(sizeof(char)*40);strcat(arr_string,$1);strcat(arr_string,$2);strcat(arr_string,$3);strcat(arr_string,$4);$$=build_tree(arr_string,NULL,NULL);};
+  |T_ID T_SQO T_ID T_SQC {is_arr($1,@1.last_line);search_id($3,@3.last_line);char *arr_str = (char *)malloc(sizeof(char)*40);strcat(arr_str,$1);strcat(arr_str,$2);strcat(arr_str,$3);strcat(arr_str,$4);$$=build_tree(arr_str,NULL,NULL);};
+	|T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line,0,4);$$=build_tree($1,NULL,NULL);};
+	|NUM {lookup($1,@1.last_line,0,3);$$=build_tree($1,NULL,NULL);};
+	;
 
 Switch_Stat : T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);lookup($4,@4.last_line,0,5);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);printf("Tree %d\n",tree_count);tree_count++;printTree($3);printf("\n");};
 
@@ -267,4 +295,14 @@ void is_arr(char *token,int lineno)
     printf("Error at line %d : %s is not defined\n",lineno,token);
     exit(0);
   }
+}
+void print_for()
+{
+  printf("For each blocks\n");
+  for(int i = 0;i < exp_index;i++)
+  {
+    printTree(exp_arr[i]);
+  }
+  printf("\n");
+  printf("For each blocks ends\n");
 }
