@@ -29,10 +29,10 @@
   }tree_node;
   tree_node *build_tree(char *,tree_node *,tree_node *);
   void printTree(tree_node *);
+  void print_for(tree_node *);
   int tree_count = 0;
   tree_node *exp_arr[1000];
   int exp_index = 0;
-  void print_for();
 %}
 
 %token T_START T_END T_LE T_GE T_NEC T_NE T_EQC T_EXP T_AND
@@ -67,7 +67,7 @@ Array_stat:T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($1,@1.last_lin
   ;
 
 Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);search_id($3,@3.last_line);lookup($3,@3.last_line,0,4);tree_node *as_left = build_tree($3,NULL,NULL);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,4);
-  tree_node *as_right = build_tree($5,NULL,NULL);tree_node *as_sub = build_tree($4,as_left,as_right);tree_node *for_node = build_tree($1,as_sub,as_sub);printTree(for_node);printf("\n");lookup($6,@6.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($9,@9.last_line,0,5);print_for();};
+  tree_node *as_right = build_tree($5,NULL,NULL);tree_node *as_sub = build_tree($4,as_left,as_right);tree_node *for_node = build_tree($1,as_sub,exp_arr);lookup($6,@6.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($9,@9.last_line,0,5);print_for(for_node);};
 
 Foreach_Blk : foreach_St1;
 
@@ -296,13 +296,19 @@ void is_arr(char *token,int lineno)
     exit(0);
   }
 }
-void print_for()
+void print_for(tree_node *root)
 {
-  printf("For each blocks\n");
+  /* printf("For each blocks\n");
   for(int i = 0;i < exp_index;i++)
   {
     printTree(exp_arr[i]);
   }
   printf("\n");
-  printf("For each blocks ends\n");
+  printf("For each blocks ends\n"); */
+  printf("( %s ( %s ( %s %s )(",root -> operand,root -> left -> operand,root -> left -> left -> operand,root -> left -> right -> operand);
+  for(int i = 0;i < exp_index;i++)
+  {
+    printTree(exp_arr[i]);
+  }
+  printf(")\n");
 }
