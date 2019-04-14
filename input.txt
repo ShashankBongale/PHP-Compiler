@@ -24,4 +24,10 @@ foreach($col as $aq)
   $z = 10 + 20;
 }
 echo "shashaasdnk";
+foreach($col as $aq)
+{
+  $a = $a + $arr[1];
+  $a = $a + $arr[$b];
+  $z = 10 + 20;
+}
 ?>
