@@ -305,7 +305,7 @@ void print_for(tree_node *root)
   }
   printf("\n");
   printf("For each blocks ends\n"); */
-  printf("( %s ( %s ( %s %s )(",root -> operand,root -> left -> operand,root -> left -> left -> operand,root -> left -> right -> operand);
+  printf("( %s ( %s ( %s %s ))(",root -> operand,root -> left -> operand,root -> left -> left -> operand,root -> left -> right -> operand);
   for(int i = 0;i < exp_index;i++)
   {
     printTree(exp_arr[i]);
