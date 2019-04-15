@@ -1588,7 +1588,7 @@ yyreduce:
 
   case 16:
 #line 69 "php_yacc.y" /* yacc.c:1646  */
-    {lookup((yyvsp[-8]),(yylsp[-8]).last_line,0,0);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,5);search_id((yyvsp[-6]),(yylsp[-6]).last_line);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,4);tree_node *as_left = build_tree((yyvsp[-6]),NULL,NULL);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,0);lookup((yyvsp[-4]),(yylsp[-4]).last_line,0,4);
+    {lookup((yyvsp[-8]),(yylsp[-8]).last_line,0,0);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,5);is_arr((yyvsp[-6]),(yylsp[-6]).last_line);search_id((yyvsp[-6]),(yylsp[-6]).last_line);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,4);tree_node *as_left = build_tree((yyvsp[-6]),NULL,NULL);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,0);lookup((yyvsp[-4]),(yylsp[-4]).last_line,0,4);
   tree_node *as_right = build_tree((yyvsp[-4]),NULL,NULL);tree_node *as_sub = build_tree((yyvsp[-5]),as_left,as_right);tree_node *for_node = build_tree((yyvsp[-8]),as_sub,exp_arr);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);printf("Tree %d\n",tree_count);tree_count++;print_for(for_node);}
 #line 1594 "y.tab.c" /* yacc.c:1646  */
     break;
