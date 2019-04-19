@@ -33,12 +33,21 @@
   int tree_count = 0;
   tree_node *exp_arr[1000];
   int exp_index = 0;
+  tree_node *switch_case[100];
+  int case_index = 0;
+  tree_node *switch_exp[1000];
+  int switch_exp_index = 0;
+  void copy(tree_node **);
+  void print_switch(tree_node *);
+  int len[100];
+  int len_index = 0;
 %}
 
 %token T_START T_END T_LE T_GE T_NEC T_NE T_EQC T_EXP T_AND
 %token T_OR T_XOR T_FE T_AS T_CASE T_BR T_DF NUM T_LT T_GT
 %token T_NOT T_OP T_CP T_OB T_CB T_SC T_C T_PL T_MIN T_STAR T_DIV T_MOD T_EQL
 %token T_EQ T_ID T_SW T_COM T_ARR T_STR T_ECH T_SQO T_SQC
+%right T_EQL
 %left T_PL T_MIN
 %left T_STAR T_DIV
 %start Start
@@ -49,8 +58,8 @@ Start :T_START Statements T_END {lookup($1,@1.last_line,0,0);lookup($3,@3.last_l
 
 Statements: Statements Assignment T_SC {lookup($3,@3.last_line,0,5);};
   |Assignment T_SC  {lookup($2,@2.last_line,0,5);};
-  |Statements Switch_Stat
-  |Switch_Stat
+  |Statements Switch_Stat {case_index = 0;};
+  |Switch_Stat {case_index = 0;};
   |Statements Foreach_Stat {exp_index = 0;};
   |Foreach_Stat {exp_index = 0;};
   |Statements Echo
@@ -95,43 +104,59 @@ foreach_exp1 : foreach_exp1 T_PL foreach_exp1 {$$=build_tree($2,$1,$3);};
 	|NUM {lookup($1,@1.last_line,0,3);$$=build_tree($1,NULL,NULL);};
 	;
 
-Switch_Stat : T_SW T_OB switch_exp T_CB T_OP Switch_Blk T_CP {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);lookup($4,@4.last_line,0,5);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);printf("Tree %d\n",tree_count);tree_count++;printTree($3);printf("\n");};
+Switch_Stat : T_SW T_OB switch_exp2 T_CB T_OP Switch_Blk T_CP {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);lookup($4,@4.last_line,0,5);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);tree_node *switch_tree = build_tree($1,$3,switch_case);print_switch(switch_tree);printf("\n");};
 
-switch_exp : switch_exp T_PL switch_exp {$$=build_tree($2,$1,$3);};
-	|switch_exp T_MIN switch_exp {$$=build_tree($2,$1,$3);};
-	|switch_exp T_STAR switch_exp {$$=build_tree($2,$1,$3);};
-	|switch_exp T_DIV switch_exp {$$=build_tree($2,$1,$3);};
+switch_exp2 : switch_exp2 T_PL switch_exp2 {$$=build_tree($2,$1,$3);};
+	|switch_exp2 T_MIN switch_exp2 {$$=build_tree($2,$1,$3);};
+	|switch_exp2 T_STAR switch_exp2 {$$=build_tree($2,$1,$3);};
+	|switch_exp2 T_DIV switch_exp2 {$$=build_tree($2,$1,$3);};
 	|T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line,0,4);$$=build_tree($1,NULL,NULL);};
 	|NUM {lookup($1,@1.last_line,0,3);$$=build_tree($1,NULL,NULL);};
   |T_ID T_SQO NUM T_SQC {is_arr($1,@1.last_line);char *arr_string=(char *)malloc(sizeof(char)*40);strcat(arr_string,$1);strcat(arr_string,$2);strcat(arr_string,$3);strcat(arr_string,$4);$$=build_tree(arr_string,NULL,NULL);};
   |T_ID T_SQO T_ID T_SQC {is_arr($1,@1.last_line);search_id($3,@3.last_line);char *arr_str = (char *)malloc(sizeof(char)*40);strcat(arr_str,$1);strcat(arr_str,$2);strcat(arr_str,$3);strcat(arr_str,$4);$$=build_tree(arr_str,NULL,NULL);};
   ;
 
-Switch_Blk : CaseBlock
-  | CaseBlock DEF {lookup($2,@2.last_line,0,0);};
+Switch_Blk : CaseBlock /*{switch_case[case_index] = $1;case_index = case_index + 1;};*/
+| CaseBlock DEF {lookup($2,@2.last_line,0,0);/*switch_case[case_index] = $2;case_index = case_index + 1;*/};
   ;
 
-CaseBlock :CaseBlock T_CASE NUM T_C St1 {lookup($2,@2.last_line,0,0);lookup($3,@3.last_line,0,3);lookup($4,@4.last_line,0,5);};
-  |CaseBlock T_CASE NUM T_C St1 T_BR T_SC {lookup($2,@2.last_line,0,0);lookup($3,@3.last_line,0,3);lookup($4,@4.last_line,0,5);lookup($6,@6.last_line,0,0);lookup($7,@7.last_line,0,5);};
+CaseBlock :CaseBlock T_CASE NUM T_C switch_St1 {lookup($2,@2.last_line,0,0);lookup($3,@3.last_line,0,3);tree_node *num = build_tree($3,NULL,NULL);lookup($4,@4.last_line,0,5);
+  tree_node **temp = (tree_node **)malloc(sizeof(tree_node *)*1000);copy(temp);$$ = build_tree($2,num,temp);switch_case[case_index] = $$;case_index = case_index + 1;len[len_index] = switch_exp_index;len_index++;switch_exp_index = 0;};
+  |CaseBlock T_CASE NUM T_C switch_St1 T_BR T_SC {lookup($2,@2.last_line,0,0);lookup($3,@3.last_line,0,3);tree_node *num = build_tree($3,NULL,NULL);lookup($4,@4.last_line,0,5);lookup($6,@6.last_line,0,0);lookup($7,@7.last_line,0,5);
+    tree_node **temp = (tree_node **)malloc(sizeof(tree_node *)*1000);copy(temp);$$ = build_tree($2,num,temp);switch_case[case_index] = $$;case_index = case_index + 1;len[len_index] = switch_exp_index;len_index++;switch_exp_index = 0;};
   |
   ;
 
-DEF : T_DF T_C St1 T_BR T_SC  {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,5);};
-	|T_DF T_C St1  {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);};
+DEF : T_DF T_C switch_St1 T_BR T_SC  {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,5);
+tree_node **temp = (tree_node **)malloc(sizeof(tree_node *)*1000);copy(temp);$$ = build_tree($1,'0',temp);switch_exp_index = 0;};
+	|T_DF T_C switch_St1  {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);
+  tree_node **temp = (tree_node **)malloc(sizeof(tree_node *)*1000);copy(temp);$$ = build_tree($1,'0',temp);switch_exp_index = 0;};
 	;
 
-St1 : St1 exp T_SC {lookup($3,@3.last_line,0,5);};
-	| exp T_SC {lookup($2,@2.last_line,0,5);};
-  |St1 T_ECH T_STR T_SC {lookup($2,@2.last_line,0,0);lookup($3,@3.last_line,0,6);lookup($4,@4.last_line,0,5);};
+switch_St1 : switch_St1 switch_exp T_SC {lookup($3,@3.last_line,0,5);};
+	| switch_exp T_SC {lookup($2,@2.last_line,0,5);};
+  |switch_St1 T_ECH T_STR T_SC {lookup($2,@2.last_line,0,0);lookup($3,@3.last_line,0,6);lookup($4,@4.last_line,0,5);};
   |T_ECH T_STR T_SC {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,6);lookup($2,@2.last_line,0,5);};
-  |St1 T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($2,@2.last_line,1,4);lookup($3,@3.last_line,0,1);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($8,@8.last_line,0,3);lookup($9,@9.last_line,0,5);lookup($10,@10.last_line,0,5);};
+  |switch_St1 T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($2,@2.last_line,1,4);lookup($3,@3.last_line,0,1);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($8,@8.last_line,0,3);lookup($9,@9.last_line,0,5);lookup($10,@10.last_line,0,5);};
   |T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($1,@1.last_line,1,4);lookup($2,@2.last_line,0,1);lookup($3,@3.last_line,0,0);lookup($4,@4.last_line,0,5);lookup($6,@6.last_line,0,5);lookup($7,@7.last_line,0,3);lookup($8,@8.last_line,0,5);lookup($9,@9.last_line,0,5);};
-  |St1 T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC {lookup($2,@2.last_line,1,4);lookup($3,@3.last_line,0,1);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);search_id($8,@8.last_line);lookup($8,@8.last_line,0,4);lookup($9,@9.last_line,0,5);lookup($10,@10.last_line,0,5);};
+  |switch_St1 T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC {lookup($2,@2.last_line,1,4);lookup($3,@3.last_line,0,1);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,5);lookup($7,@7.last_line,0,5);search_id($8,@8.last_line);lookup($8,@8.last_line,0,4);lookup($9,@9.last_line,0,5);lookup($10,@10.last_line,0,5);};
   |T_ID T_EQL T_ARR T_OB Data T_COM T_ID T_CB T_SC {lookup($1,@1.last_line,1,4);lookup($2,@2.last_line,0,1);lookup($3,@3.last_line,0,0);lookup($4,@4.last_line,0,5);lookup($6,@6.last_line,0,5);search_id($7,@7.last_line);lookup($7,@7.last_line,0,4);lookup($8,@8.last_line,0,5);lookup($9,@9.last_line,0,5);};
   ;
 
-exp :Assignment
+switch_exp :switch_Assignment
   ;
+switch_Assignment: T_ID T_EQL switch_exp1 {lookup($1,@1.last_line,0,4);tree_node *left_part = build_tree($1,NULL,NULL);$$ = build_tree($2,left_part,$3);switch_exp[switch_exp_index] = $$;switch_exp_index = switch_exp_index + 1;};
+
+switch_exp1 : switch_exp1 T_PL switch_exp1 {$$=build_tree($2,$1,$3);};
+	|switch_exp1 T_MIN switch_exp1 {$$=build_tree($2,$1,$3);};
+	|switch_exp1 T_STAR switch_exp1 {$$=build_tree($2,$1,$3);};
+	|switch_exp1 T_DIV switch_exp1 {$$=build_tree($2,$1,$3);};
+  |T_ID T_SQO NUM T_SQC {is_arr($1,@1.last_line);char *arr_string=(char *)malloc(sizeof(char)*40);strcat(arr_string,$1);strcat(arr_string,$2);strcat(arr_string,$3);strcat(arr_string,$4);$$=build_tree(arr_string,NULL,NULL);};
+  |T_ID T_SQO T_ID T_SQC {is_arr($1,@1.last_line);search_id($3,@3.last_line);char *arr_str = (char *)malloc(sizeof(char)*40);strcat(arr_str,$1);strcat(arr_str,$2);strcat(arr_str,$3);strcat(arr_str,$4);$$=build_tree(arr_str,NULL,NULL);};
+	|T_ID {search_id($1,@1.last_line);lookup($1,@1.last_line,0,4);$$=build_tree($1,NULL,NULL);};
+	|NUM {lookup($1,@1.last_line,0,3);$$=build_tree($1,NULL,NULL);};
+	;
+
 Assignment: T_ID T_EQL exp1 {lookup($1,@1.last_line,0,4);tree_node *left_part = build_tree($1,NULL,NULL);$$ = build_tree($2,left_part,$3);printf("Tree %d\n",tree_count);tree_count++;printTree($$);printf("\n");};
 
 exp1 : exp1 T_PL exp1 {$$=build_tree($2,$1,$3);};
@@ -311,4 +336,27 @@ void print_for(tree_node *root)
     printTree(exp_arr[i]);
   }
   printf(")\n");
+}
+void copy(tree_node **temp)
+{
+  for(int i = 0;i < switch_exp_index;i++)
+  {
+    temp[i] = switch_exp[i];
+  }
+}
+void print_switch(tree_node *root)
+{
+  printf("Switch tree\n");
+  printf("(%s (l",root -> operand);
+  printTree(root -> left);
+  printf(" )(h");
+  //printf("CAse index %d\n",case_index);
+  for(int i = 0;i < case_index;i++)
+  {
+    printf(" %so %so ",switch_case[i]->operand,switch_case[i] -> left -> operand);
+    for(int j = 0;j < len[i];j++)
+    {
+      printTree(switch_case[i]->right+j);
+    }
+  }
 }
