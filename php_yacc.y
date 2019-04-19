@@ -288,6 +288,7 @@ void printTree(tree_node *tree)
 	//printf("treeoooooooooooooooooooooooooooooo\n");
 	if(tree->left || tree->right)
 		printf("(");
+  if(tree -> operand != NULL)
 	printf(" %s ",tree->operand);
 	if(tree->left)
 		printTree(tree->left);
@@ -347,13 +348,13 @@ void copy(tree_node **temp)
 void print_switch(tree_node *root)
 {
   printf("Switch tree\n");
-  printf("(%s (l",root -> operand);
+  printf("(%s (",root -> operand);
   printTree(root -> left);
-  printf(" )(h");
+  printf(" )(");
   //printf("CAse index %d\n",case_index);
   for(int i = 0;i < case_index;i++)
   {
-    printf(" %so %so ",switch_case[i]->operand,switch_case[i] -> left -> operand);
+    printf(" %s %s ",switch_case[i]->operand,switch_case[i] -> left -> operand);
     for(int j = 0;j < len[i];j++)
     {
       printTree(switch_case[i]->right+j);

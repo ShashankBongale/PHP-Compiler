@@ -13,7 +13,11 @@ switch($ar1+$b)
           echo "shashan";
           echo "shashankm";
           break;
-          case 30:$c = 25 + $b;
+          case 30:$c = 25 + $b *10 + 20;
+                  $d = 25 + $b;
+                  $d = 25 + $b;
+                  $d = 25 + $b;
+                  $d = 25 + $b;
                   $d = 25 + $b;
                   echo "shashan";
                   echo "shashankm";
