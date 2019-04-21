@@ -46,6 +46,19 @@
   int top = -1;
   char *create_temp();
   int temp_num = 0;
+  void icg_foreach(tree_node *);
+  char *create_label();
+  int label_index = 0;
+  typedef struct quad
+  {
+    char operand1[35];
+    char operand2[35];
+    char res[35];
+    char operator[35];
+  }quad;
+  quad quad_table[1000];
+  int quad_index = 0;
+  void print_quad();
 %}
 
 %token T_START T_END T_LE T_GE T_NEC T_NE T_EQC T_EXP T_AND
@@ -81,7 +94,7 @@ Array_stat:T_ID T_EQL T_ARR T_OB Data T_COM NUM T_CB T_SC {lookup($1,@1.last_lin
   ;
 
 Foreach_Stat : T_FE T_OB T_ID T_AS T_ID T_CB T_OP Foreach_Blk T_CP {lookup($1,@1.last_line,0,0);lookup($2,@2.last_line,0,5);is_arr($3,@3.last_line);search_id($3,@3.last_line);lookup($3,@3.last_line,0,4);tree_node *as_left = build_tree($3,NULL,NULL);lookup($4,@4.last_line,0,0);lookup($5,@5.last_line,0,4);
-  tree_node *as_right = build_tree($5,NULL,NULL);tree_node *as_sub = build_tree($4,as_left,as_right);tree_node *for_node = build_tree($1,as_sub,exp_arr);lookup($6,@6.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($9,@9.last_line,0,5);printf("Tree %d\n",tree_count);tree_count++;print_for(for_node);};
+  tree_node *as_right = build_tree($5,NULL,NULL);tree_node *as_sub = build_tree($4,as_left,as_right);tree_node *for_node = build_tree($1,as_sub,exp_arr);lookup($6,@6.last_line,0,5);lookup($7,@7.last_line,0,5);lookup($9,@9.last_line,0,5);printf("Tree %d\n",tree_count);tree_count++;print_for(for_node);icg_foreach(for_node);};
 
 Foreach_Blk : foreach_St1;
 
@@ -185,7 +198,7 @@ Data :Data T_COM NUM {lookup($2,@2.last_line,0,5);lookup($3,@3.last_line,0,3);};
 int main(int argc,char *argv[])
 {
   printf("--------------------Syntax tree of the program------\n");
-  yyin = fopen("input.txt","r");
+  yyin = fopen("input_or.txt","r");
   if(!yyparse())  //yyparse-> 0 if success
   {
     printf("Parsing Complete\n");
@@ -194,6 +207,7 @@ int main(int argc,char *argv[])
     {
       printf("%d Token %s Line number %d Is Array %d %s\n",i+1,st[i].name,st[i].line,st[i].flag_array,st[i].type);
     }
+    print_quad();
   }
   else
   {
@@ -381,6 +395,14 @@ void icg(tree_node *root)
       strcpy(operand1,stack[top]);
       top = top - 1;
       printf("%s = %s %s %s\n",temp,operand1,root->operand,operand2);
+      strcpy(quad_table[quad_index].operand1,operand1);
+      strcpy(quad_table[quad_index].operand2,operand2);
+      strcpy(quad_table[quad_index].res,temp);
+      strcpy(quad_table[quad_index].operator,root->operand);
+      quad_index = quad_index + 1;
+      /* printf("In Quadruple form\n");
+      printf("Operation  arg1  arg2  res\n");
+      printf("%s         %s     %s   %s\n",root -> operand,operand1,operand2,temp); */
       top = top + 1;
       strcpy(stack[top],temp);
     }
@@ -392,6 +414,14 @@ void icg(tree_node *root)
       strcpy(operand1,stack[top]);
       top = top - 1;
       printf("%s %s %s\n",operand1,root -> operand,operand2);
+      strcpy(quad_table[quad_index].operand1,operand2);
+      strcpy(quad_table[quad_index].operand2,"NULL");
+      strcpy(quad_table[quad_index].operator,root->operand);
+      strcpy(quad_table[quad_index].res,operand1);
+      quad_index = quad_index + 1;
+      /* printf("In Quadruple form\n");
+      printf("Operation  arg1  arg2  res\n");
+      printf("%s         %s    NULL  %s\n",root -> operand,operand2,operand1); */
     }
     else
     {
@@ -433,4 +463,119 @@ char *create_temp()
   //printf("temp_var %s\n",temp_var);
   temp_num = temp_num + 1;
   return temp_var;
+}
+void icg_foreach(tree_node *root)
+{
+  //printf("------------------------------ICG---------------------\n");
+  char *temp = create_temp(); // t0
+  printf("%s = 0\n",temp);
+  strcpy(quad_table[quad_index].operand1,"0");
+  strcpy(quad_table[quad_index].operand2,"NULL");
+  strcpy(quad_table[quad_index].operator,"=");
+  strcpy(quad_table[quad_index].res,temp);
+  quad_index = quad_index + 1;
+  char *label = create_label();
+  printf("param %s\n",root -> left -> left -> operand);
+  strcpy(quad_table[quad_index].operand1,root -> left -> left -> operand);
+  strcpy(quad_table[quad_index].operand2,"NULL");
+  strcpy(quad_table[quad_index].operator,"param");
+  strcpy(quad_table[quad_index].res,"NULL");
+  quad_index = quad_index + 1;
+  char *temp1 = create_temp();
+  printf("%s = call len,1\n",temp1);
+  strcpy(quad_table[quad_index].operand1,"len");
+  strcpy(quad_table[quad_index].operand2,"1");
+  strcpy(quad_table[quad_index].operator,"call");
+  strcpy(quad_table[quad_index].res,temp1);
+  quad_index = quad_index + 1;
+  printf("%s :\n",label);
+  strcpy(quad_table[quad_index].operand1,"NULL");
+  strcpy(quad_table[quad_index].operand2,"NULL");
+  strcpy(quad_table[quad_index].operator,"label");
+  strcpy(quad_table[quad_index].res,label);
+  quad_index = quad_index + 1;
+  char *temp2 = create_temp();
+  char *label1 = create_label();
+  printf("%s = %s < %s\n",temp2,temp,temp1);
+  strcpy(quad_table[quad_index].operand1,temp);
+  strcpy(quad_table[quad_index].operand2,temp1);
+  strcpy(quad_table[quad_index].operator,"<");
+  strcpy(quad_table[quad_index].res,temp2);
+  quad_index = quad_index + 1;
+  printf("ifFalse %s goto %s\n",temp2,label1);
+  strcpy(quad_table[quad_index].operand1,temp2);
+  strcpy(quad_table[quad_index].operand2,"NULL");
+  strcpy(quad_table[quad_index].operator,"ifFalse");
+  strcpy(quad_table[quad_index].res,label1);
+  quad_index = quad_index + 1;
+  for(int i = 0;i < exp_index;i++)
+  {
+    icg(exp_arr[i]);
+  }
+  printf("%s = %s + 1\n",temp,temp);
+  strcpy(quad_table[quad_index].operand1,temp);
+  strcpy(quad_table[quad_index].operand2,"1");
+  strcpy(quad_table[quad_index].operator,"+");
+  strcpy(quad_table[quad_index].res,temp);
+  quad_index = quad_index + 1;
+  printf("goto %s\n",label);
+  strcpy(quad_table[quad_index].operand1,"NULL");
+  strcpy(quad_table[quad_index].operand2,"NULL");
+  strcpy(quad_table[quad_index].operator,"goto");
+  strcpy(quad_table[quad_index].res,label);
+  quad_index = quad_index + 1;
+  printf("%s :NEXT STATEMENTS\n",label1);
+  strcpy(quad_table[quad_index].operand1,"NULL");
+  strcpy(quad_table[quad_index].operand2,"NULL");
+  strcpy(quad_table[quad_index].operator,"label");
+  strcpy(quad_table[quad_index].res,label1);
+  quad_index = quad_index + 1;
+}
+
+char* create_label()
+{
+  int temp = label_index;
+  char char_num[3];
+  int unit;
+  int temp_index = 0;
+  if(temp >= 10)
+  {
+     unit = temp % 10;
+     temp = temp / 10;
+     char_num[1] = unit + '0';
+     char_num[0] = temp + '0';
+     char_num[2] = '\0';
+  }
+  else
+  {
+    char_num[0] = temp + '0';
+    //printf("Temp %d\n",temp);
+    //printf("char %c\n",char_num[0]);
+    char_num[1] = '\0';
+  }
+  char *label = (char *)malloc(sizeof(char) * 10);
+  label[0] = 'L';
+  label[1] = 'a';
+  label[2] = 'b';
+  label[3] = 'e';
+  label[4] = 'l';
+  label[5] = ' ';
+  while(char_num[temp_index] != '\0')
+  {
+    label[temp_index + 5] = char_num[temp_index];
+    temp_index = temp_index + 1;
+  }
+  label[temp_index + 5] = '\0';
+  label_index = label_index + 1;
+  return label;
+}
+void print_quad()
+{
+  printf("----------------------Quadruple---------------------------\n");
+  printf("Operator  Arg1  Arg2  Result\n");
+  for(int i = 0;i < quad_index;i++)
+  {
+    //printf("Operator  Arg1  Arg2  Result\n");
+    printf("%s      %s    %s    %s\n",quad_table[i].operator,quad_table[i].operand1,quad_table[i].operand2,quad_table[i].res);
+  }
 }
