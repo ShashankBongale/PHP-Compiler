@@ -41,6 +41,11 @@
   void print_switch(tree_node *);
   int len[100];
   int len_index = 0;
+  void icg(tree_node *);
+  char stack[100][33];
+  int top = -1;
+  char *create_temp();
+  int temp_num = 0;
 %}
 
 %token T_START T_END T_LE T_GE T_NEC T_NE T_EQC T_EXP T_AND
@@ -157,7 +162,7 @@ switch_exp1 : switch_exp1 T_PL switch_exp1 {$$=build_tree($2,$1,$3);};
 	|NUM {lookup($1,@1.last_line,0,3);$$=build_tree($1,NULL,NULL);};
 	;
 
-Assignment: T_ID T_EQL exp1 {lookup($1,@1.last_line,0,4);tree_node *left_part = build_tree($1,NULL,NULL);$$ = build_tree($2,left_part,$3);printf("Tree %d\n",tree_count);tree_count++;printTree($$);printf("\n");};
+Assignment: T_ID T_EQL exp1 {lookup($1,@1.last_line,0,4);tree_node *left_part = build_tree($1,NULL,NULL);$$ = build_tree($2,left_part,$3);printf("Tree %d\n",tree_count);tree_count++;printTree($$);printf("\n");icg($$);top = -1;};
 
 exp1 : exp1 T_PL exp1 {$$=build_tree($2,$1,$3);};
 	|exp1 T_MIN exp1 {$$=build_tree($2,$1,$3);};
@@ -360,4 +365,72 @@ void print_switch(tree_node *root)
       printTree(switch_case[i]->right+j);
     }
   }
+}
+void icg(tree_node *root)
+{
+  if(root)
+  {
+    icg(root -> left);
+    icg(root -> right);
+    if(root -> operand[0] == '+' || root -> operand[0] == '-' || root -> operand[0] == '*' || root -> operand[0] == '/')
+    {
+      char *temp = create_temp();
+      char operand1[35],operand2[35];
+      strcpy(operand2,stack[top]);
+      top = top - 1;
+      strcpy(operand1,stack[top]);
+      top = top - 1;
+      printf("%s = %s %s %s\n",temp,operand1,root->operand,operand2);
+      top = top + 1;
+      strcpy(stack[top],temp);
+    }
+    else if( root -> operand[0] == '=')
+    {
+      char operand1[35],operand2[35];
+      strcpy(operand2,stack[top]);
+      top = top - 1;
+      strcpy(operand1,stack[top]);
+      top = top - 1;
+      printf("%s %s %s\n",operand1,root -> operand,operand2);
+    }
+    else
+    {
+      top = top + 1;
+      strcpy(stack[top],root -> operand);
+    }
+  }
+}
+char *create_temp()
+{
+  int temp = temp_num;
+  int unit;
+  char char_num[3];
+  int temp_index = 0;
+  if(temp >= 10)
+  {
+     unit = temp % 10;
+     temp = temp / 10;
+     char_num[1] = unit + '0';
+     char_num[0] = temp + '0';
+     char_num[2] = '\0';
+  }
+  else
+  {
+    char_num[0] = temp + '0';
+    //printf("Temp %d\n",temp);
+    //printf("char %c\n",char_num[0]);
+    char_num[1] = '\0';
+  }
+  char *temp_var = (char *)malloc(sizeof(char) * 5);
+  temp_var[0] = 't';
+  temp_index = 0;
+  while(char_num[temp_index] != '\0')
+  {
+    temp_var[temp_index + 1] = char_num[temp_index];
+    temp_index = temp_index + 1;
+  }
+  temp_var[temp_index+1] = '\0';
+  //printf("temp_var %s\n",temp_var);
+  temp_num = temp_num + 1;
+  return temp_var;
 }

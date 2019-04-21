@@ -106,8 +106,13 @@
   void print_switch(tree_node *);
   int len[100];
   int len_index = 0;
+  void icg(tree_node *);
+  char stack[100][33];
+  int top = -1;
+  char *create_temp();
+  int temp_num = 0;
 
-#line 111 "y.tab.c" /* yacc.c:339  */
+#line 116 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -258,7 +263,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 262 "y.tab.c" /* yacc.c:358  */
+#line 267 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -561,15 +566,15 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    56,    56,    59,    60,    61,    62,    63,    64,    65,
-      66,    67,    68,    71,    74,    75,    78,    81,    83,    84,
-      85,    86,    87,    88,    89,    90,    93,    95,    97,    98,
-      99,   100,   101,   102,   103,   104,   107,   109,   110,   111,
-     112,   113,   114,   115,   116,   119,   120,   123,   125,   127,
-     130,   132,   136,   137,   138,   139,   140,   141,   142,   143,
-     146,   148,   150,   151,   152,   153,   154,   155,   156,   157,
-     160,   162,   163,   164,   165,   166,   167,   168,   169,   172,
-     173,   174,   175
+       0,    61,    61,    64,    65,    66,    67,    68,    69,    70,
+      71,    72,    73,    76,    79,    80,    83,    86,    88,    89,
+      90,    91,    92,    93,    94,    95,    98,   100,   102,   103,
+     104,   105,   106,   107,   108,   109,   112,   114,   115,   116,
+     117,   118,   119,   120,   121,   124,   125,   128,   130,   132,
+     135,   137,   141,   142,   143,   144,   145,   146,   147,   148,
+     151,   153,   155,   156,   157,   158,   159,   160,   161,   162,
+     165,   167,   168,   169,   170,   171,   172,   173,   174,   177,
+     178,   179,   180
 };
 #endif
 
@@ -1558,444 +1563,444 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 56 "php_yacc.y" /* yacc.c:1646  */
+#line 61 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,0);lookup((yyvsp[0]),(yylsp[0]).last_line,0,0);}
-#line 1564 "y.tab.c" /* yacc.c:1646  */
+#line 1569 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 59 "php_yacc.y" /* yacc.c:1646  */
+#line 64 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1570 "y.tab.c" /* yacc.c:1646  */
+#line 1575 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 60 "php_yacc.y" /* yacc.c:1646  */
+#line 65 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1576 "y.tab.c" /* yacc.c:1646  */
+#line 1581 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 61 "php_yacc.y" /* yacc.c:1646  */
+#line 66 "php_yacc.y" /* yacc.c:1646  */
     {case_index = 0;}
-#line 1582 "y.tab.c" /* yacc.c:1646  */
+#line 1587 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 62 "php_yacc.y" /* yacc.c:1646  */
+#line 67 "php_yacc.y" /* yacc.c:1646  */
     {case_index = 0;}
-#line 1588 "y.tab.c" /* yacc.c:1646  */
+#line 1593 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 63 "php_yacc.y" /* yacc.c:1646  */
+#line 68 "php_yacc.y" /* yacc.c:1646  */
     {exp_index = 0;}
-#line 1594 "y.tab.c" /* yacc.c:1646  */
+#line 1599 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 64 "php_yacc.y" /* yacc.c:1646  */
+#line 69 "php_yacc.y" /* yacc.c:1646  */
     {exp_index = 0;}
-#line 1600 "y.tab.c" /* yacc.c:1646  */
+#line 1605 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 71 "php_yacc.y" /* yacc.c:1646  */
+#line 76 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,0);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,6);}
-#line 1606 "y.tab.c" /* yacc.c:1646  */
+#line 1611 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 74 "php_yacc.y" /* yacc.c:1646  */
+#line 79 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1612 "y.tab.c" /* yacc.c:1646  */
+#line 1617 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 75 "php_yacc.y" /* yacc.c:1646  */
+#line 80 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);search_id((yyvsp[-2]),(yylsp[-2]).last_line);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1618 "y.tab.c" /* yacc.c:1646  */
+#line 1623 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 78 "php_yacc.y" /* yacc.c:1646  */
+#line 83 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,0,0);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,5);is_arr((yyvsp[-6]),(yylsp[-6]).last_line);search_id((yyvsp[-6]),(yylsp[-6]).last_line);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,4);tree_node *as_left = build_tree((yyvsp[-6]),NULL,NULL);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,0);lookup((yyvsp[-4]),(yylsp[-4]).last_line,0,4);
   tree_node *as_right = build_tree((yyvsp[-4]),NULL,NULL);tree_node *as_sub = build_tree((yyvsp[-5]),as_left,as_right);tree_node *for_node = build_tree((yyvsp[-8]),as_sub,exp_arr);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);printf("Tree %d\n",tree_count);tree_count++;print_for(for_node);}
-#line 1625 "y.tab.c" /* yacc.c:1646  */
+#line 1630 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 83 "php_yacc.y" /* yacc.c:1646  */
+#line 88 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1631 "y.tab.c" /* yacc.c:1646  */
+#line 1636 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 84 "php_yacc.y" /* yacc.c:1646  */
+#line 89 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1637 "y.tab.c" /* yacc.c:1646  */
+#line 1642 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 85 "php_yacc.y" /* yacc.c:1646  */
+#line 90 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,0);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,6);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1643 "y.tab.c" /* yacc.c:1646  */
+#line 1648 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 86 "php_yacc.y" /* yacc.c:1646  */
+#line 91 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,0);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,6);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);}
-#line 1649 "y.tab.c" /* yacc.c:1646  */
+#line 1654 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 87 "php_yacc.y" /* yacc.c:1646  */
+#line 92 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,3);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1655 "y.tab.c" /* yacc.c:1646  */
+#line 1660 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 88 "php_yacc.y" /* yacc.c:1646  */
+#line 93 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,3);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1661 "y.tab.c" /* yacc.c:1646  */
+#line 1666 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 89 "php_yacc.y" /* yacc.c:1646  */
+#line 94 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);search_id((yyvsp[-2]),(yylsp[-2]).last_line);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1667 "y.tab.c" /* yacc.c:1646  */
+#line 1672 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 90 "php_yacc.y" /* yacc.c:1646  */
+#line 95 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);search_id((yyvsp[-2]),(yylsp[-2]).last_line);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1673 "y.tab.c" /* yacc.c:1646  */
+#line 1678 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 95 "php_yacc.y" /* yacc.c:1646  */
+#line 100 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);tree_node *left_part = build_tree((yyvsp[-2]),NULL,NULL);(yyval) = build_tree((yyvsp[-1]),left_part,(yyvsp[0]));exp_arr[exp_index] = (yyval);exp_index = exp_index + 1;}
-#line 1679 "y.tab.c" /* yacc.c:1646  */
+#line 1684 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 97 "php_yacc.y" /* yacc.c:1646  */
+#line 102 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1685 "y.tab.c" /* yacc.c:1646  */
+#line 1690 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 98 "php_yacc.y" /* yacc.c:1646  */
+#line 103 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1691 "y.tab.c" /* yacc.c:1646  */
+#line 1696 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 99 "php_yacc.y" /* yacc.c:1646  */
+#line 104 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1697 "y.tab.c" /* yacc.c:1646  */
+#line 1702 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 100 "php_yacc.y" /* yacc.c:1646  */
+#line 105 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1703 "y.tab.c" /* yacc.c:1646  */
+#line 1708 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 101 "php_yacc.y" /* yacc.c:1646  */
+#line 106 "php_yacc.y" /* yacc.c:1646  */
     {is_arr((yyvsp[-3]),(yylsp[-3]).last_line);char *arr_string=(char *)malloc(sizeof(char)*40);strcat(arr_string,(yyvsp[-3]));strcat(arr_string,(yyvsp[-2]));strcat(arr_string,(yyvsp[-1]));strcat(arr_string,(yyvsp[0]));(yyval)=build_tree(arr_string,NULL,NULL);}
-#line 1709 "y.tab.c" /* yacc.c:1646  */
+#line 1714 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 102 "php_yacc.y" /* yacc.c:1646  */
+#line 107 "php_yacc.y" /* yacc.c:1646  */
     {is_arr((yyvsp[-3]),(yylsp[-3]).last_line);search_id((yyvsp[-1]),(yylsp[-1]).last_line);char *arr_str = (char *)malloc(sizeof(char)*40);strcat(arr_str,(yyvsp[-3]));strcat(arr_str,(yyvsp[-2]));strcat(arr_str,(yyvsp[-1]));strcat(arr_str,(yyvsp[0]));(yyval)=build_tree(arr_str,NULL,NULL);}
-#line 1715 "y.tab.c" /* yacc.c:1646  */
+#line 1720 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 103 "php_yacc.y" /* yacc.c:1646  */
+#line 108 "php_yacc.y" /* yacc.c:1646  */
     {search_id((yyvsp[0]),(yylsp[0]).last_line);lookup((yyvsp[0]),(yylsp[0]).last_line,0,4);(yyval)=build_tree((yyvsp[0]),NULL,NULL);}
-#line 1721 "y.tab.c" /* yacc.c:1646  */
+#line 1726 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 104 "php_yacc.y" /* yacc.c:1646  */
+#line 109 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,3);(yyval)=build_tree((yyvsp[0]),NULL,NULL);}
-#line 1727 "y.tab.c" /* yacc.c:1646  */
+#line 1732 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 107 "php_yacc.y" /* yacc.c:1646  */
+#line 112 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);tree_node *switch_tree = build_tree((yyvsp[-6]),(yyvsp[-4]),switch_case);print_switch(switch_tree);printf("\n");}
-#line 1733 "y.tab.c" /* yacc.c:1646  */
+#line 1738 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 109 "php_yacc.y" /* yacc.c:1646  */
+#line 114 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1739 "y.tab.c" /* yacc.c:1646  */
+#line 1744 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 110 "php_yacc.y" /* yacc.c:1646  */
+#line 115 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1745 "y.tab.c" /* yacc.c:1646  */
+#line 1750 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 111 "php_yacc.y" /* yacc.c:1646  */
+#line 116 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1751 "y.tab.c" /* yacc.c:1646  */
+#line 1756 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 112 "php_yacc.y" /* yacc.c:1646  */
+#line 117 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1757 "y.tab.c" /* yacc.c:1646  */
+#line 1762 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 113 "php_yacc.y" /* yacc.c:1646  */
+#line 118 "php_yacc.y" /* yacc.c:1646  */
     {search_id((yyvsp[0]),(yylsp[0]).last_line);lookup((yyvsp[0]),(yylsp[0]).last_line,0,4);(yyval)=build_tree((yyvsp[0]),NULL,NULL);}
-#line 1763 "y.tab.c" /* yacc.c:1646  */
+#line 1768 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 114 "php_yacc.y" /* yacc.c:1646  */
+#line 119 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,3);(yyval)=build_tree((yyvsp[0]),NULL,NULL);}
-#line 1769 "y.tab.c" /* yacc.c:1646  */
+#line 1774 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 115 "php_yacc.y" /* yacc.c:1646  */
+#line 120 "php_yacc.y" /* yacc.c:1646  */
     {is_arr((yyvsp[-3]),(yylsp[-3]).last_line);char *arr_string=(char *)malloc(sizeof(char)*40);strcat(arr_string,(yyvsp[-3]));strcat(arr_string,(yyvsp[-2]));strcat(arr_string,(yyvsp[-1]));strcat(arr_string,(yyvsp[0]));(yyval)=build_tree(arr_string,NULL,NULL);}
-#line 1775 "y.tab.c" /* yacc.c:1646  */
+#line 1780 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 116 "php_yacc.y" /* yacc.c:1646  */
+#line 121 "php_yacc.y" /* yacc.c:1646  */
     {is_arr((yyvsp[-3]),(yylsp[-3]).last_line);search_id((yyvsp[-1]),(yylsp[-1]).last_line);char *arr_str = (char *)malloc(sizeof(char)*40);strcat(arr_str,(yyvsp[-3]));strcat(arr_str,(yyvsp[-2]));strcat(arr_str,(yyvsp[-1]));strcat(arr_str,(yyvsp[0]));(yyval)=build_tree(arr_str,NULL,NULL);}
-#line 1781 "y.tab.c" /* yacc.c:1646  */
+#line 1786 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 120 "php_yacc.y" /* yacc.c:1646  */
+#line 125 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,0);/*switch_case[case_index] = $2;case_index = case_index + 1;*/}
-#line 1787 "y.tab.c" /* yacc.c:1646  */
+#line 1792 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 123 "php_yacc.y" /* yacc.c:1646  */
+#line 128 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,0);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,3);tree_node *num = build_tree((yyvsp[-2]),NULL,NULL);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);
   tree_node **temp = (tree_node **)malloc(sizeof(tree_node *)*1000);copy(temp);(yyval) = build_tree((yyvsp[-3]),num,temp);switch_case[case_index] = (yyval);case_index = case_index + 1;len[len_index] = switch_exp_index;len_index++;switch_exp_index = 0;}
-#line 1794 "y.tab.c" /* yacc.c:1646  */
+#line 1799 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 125 "php_yacc.y" /* yacc.c:1646  */
+#line 130 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,0);lookup((yyvsp[-4]),(yylsp[-4]).last_line,0,3);tree_node *num = build_tree((yyvsp[-4]),NULL,NULL);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,0);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);
     tree_node **temp = (tree_node **)malloc(sizeof(tree_node *)*1000);copy(temp);(yyval) = build_tree((yyvsp[-5]),num,temp);switch_case[case_index] = (yyval);case_index = case_index + 1;len[len_index] = switch_exp_index;len_index++;switch_exp_index = 0;}
-#line 1801 "y.tab.c" /* yacc.c:1646  */
+#line 1806 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 130 "php_yacc.y" /* yacc.c:1646  */
+#line 135 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-4]),(yylsp[-4]).last_line,0,0);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,0);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);
 tree_node **temp = (tree_node **)malloc(sizeof(tree_node *)*1000);copy(temp);(yyval) = build_tree((yyvsp[-4]),'0',temp);switch_exp_index = 0;}
-#line 1808 "y.tab.c" /* yacc.c:1646  */
+#line 1813 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 132 "php_yacc.y" /* yacc.c:1646  */
+#line 137 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,0);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);
   tree_node **temp = (tree_node **)malloc(sizeof(tree_node *)*1000);copy(temp);(yyval) = build_tree((yyvsp[-2]),'0',temp);switch_exp_index = 0;}
-#line 1815 "y.tab.c" /* yacc.c:1646  */
+#line 1820 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 136 "php_yacc.y" /* yacc.c:1646  */
+#line 141 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1821 "y.tab.c" /* yacc.c:1646  */
+#line 1826 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 137 "php_yacc.y" /* yacc.c:1646  */
+#line 142 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1827 "y.tab.c" /* yacc.c:1646  */
+#line 1832 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 138 "php_yacc.y" /* yacc.c:1646  */
+#line 143 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,0);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,6);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1833 "y.tab.c" /* yacc.c:1646  */
+#line 1838 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 139 "php_yacc.y" /* yacc.c:1646  */
+#line 144 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,0);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,6);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);}
-#line 1839 "y.tab.c" /* yacc.c:1646  */
+#line 1844 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 140 "php_yacc.y" /* yacc.c:1646  */
+#line 145 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,3);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1845 "y.tab.c" /* yacc.c:1646  */
+#line 1850 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 141 "php_yacc.y" /* yacc.c:1646  */
+#line 146 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,3);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1851 "y.tab.c" /* yacc.c:1646  */
+#line 1856 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 142 "php_yacc.y" /* yacc.c:1646  */
+#line 147 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);search_id((yyvsp[-2]),(yylsp[-2]).last_line);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1857 "y.tab.c" /* yacc.c:1646  */
+#line 1862 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 143 "php_yacc.y" /* yacc.c:1646  */
+#line 148 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-8]),(yylsp[-8]).last_line,1,4);lookup((yyvsp[-7]),(yylsp[-7]).last_line,0,1);lookup((yyvsp[-6]),(yylsp[-6]).last_line,0,0);lookup((yyvsp[-5]),(yylsp[-5]).last_line,0,5);lookup((yyvsp[-3]),(yylsp[-3]).last_line,0,5);search_id((yyvsp[-2]),(yylsp[-2]).last_line);lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,5);}
-#line 1863 "y.tab.c" /* yacc.c:1646  */
+#line 1868 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 148 "php_yacc.y" /* yacc.c:1646  */
+#line 153 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);tree_node *left_part = build_tree((yyvsp[-2]),NULL,NULL);(yyval) = build_tree((yyvsp[-1]),left_part,(yyvsp[0]));switch_exp[switch_exp_index] = (yyval);switch_exp_index = switch_exp_index + 1;}
-#line 1869 "y.tab.c" /* yacc.c:1646  */
+#line 1874 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 150 "php_yacc.y" /* yacc.c:1646  */
+#line 155 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1875 "y.tab.c" /* yacc.c:1646  */
+#line 1880 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 151 "php_yacc.y" /* yacc.c:1646  */
+#line 156 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1881 "y.tab.c" /* yacc.c:1646  */
+#line 1886 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 152 "php_yacc.y" /* yacc.c:1646  */
+#line 157 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1887 "y.tab.c" /* yacc.c:1646  */
+#line 1892 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 153 "php_yacc.y" /* yacc.c:1646  */
+#line 158 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1893 "y.tab.c" /* yacc.c:1646  */
+#line 1898 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 154 "php_yacc.y" /* yacc.c:1646  */
+#line 159 "php_yacc.y" /* yacc.c:1646  */
     {is_arr((yyvsp[-3]),(yylsp[-3]).last_line);char *arr_string=(char *)malloc(sizeof(char)*40);strcat(arr_string,(yyvsp[-3]));strcat(arr_string,(yyvsp[-2]));strcat(arr_string,(yyvsp[-1]));strcat(arr_string,(yyvsp[0]));(yyval)=build_tree(arr_string,NULL,NULL);}
-#line 1899 "y.tab.c" /* yacc.c:1646  */
+#line 1904 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 155 "php_yacc.y" /* yacc.c:1646  */
+#line 160 "php_yacc.y" /* yacc.c:1646  */
     {is_arr((yyvsp[-3]),(yylsp[-3]).last_line);search_id((yyvsp[-1]),(yylsp[-1]).last_line);char *arr_str = (char *)malloc(sizeof(char)*40);strcat(arr_str,(yyvsp[-3]));strcat(arr_str,(yyvsp[-2]));strcat(arr_str,(yyvsp[-1]));strcat(arr_str,(yyvsp[0]));(yyval)=build_tree(arr_str,NULL,NULL);}
-#line 1905 "y.tab.c" /* yacc.c:1646  */
+#line 1910 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 156 "php_yacc.y" /* yacc.c:1646  */
+#line 161 "php_yacc.y" /* yacc.c:1646  */
     {search_id((yyvsp[0]),(yylsp[0]).last_line);lookup((yyvsp[0]),(yylsp[0]).last_line,0,4);(yyval)=build_tree((yyvsp[0]),NULL,NULL);}
-#line 1911 "y.tab.c" /* yacc.c:1646  */
+#line 1916 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 157 "php_yacc.y" /* yacc.c:1646  */
+#line 162 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,3);(yyval)=build_tree((yyvsp[0]),NULL,NULL);}
-#line 1917 "y.tab.c" /* yacc.c:1646  */
+#line 1922 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 160 "php_yacc.y" /* yacc.c:1646  */
-    {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);tree_node *left_part = build_tree((yyvsp[-2]),NULL,NULL);(yyval) = build_tree((yyvsp[-1]),left_part,(yyvsp[0]));printf("Tree %d\n",tree_count);tree_count++;printTree((yyval));printf("\n");}
-#line 1923 "y.tab.c" /* yacc.c:1646  */
+#line 165 "php_yacc.y" /* yacc.c:1646  */
+    {lookup((yyvsp[-2]),(yylsp[-2]).last_line,0,4);tree_node *left_part = build_tree((yyvsp[-2]),NULL,NULL);(yyval) = build_tree((yyvsp[-1]),left_part,(yyvsp[0]));printf("Tree %d\n",tree_count);tree_count++;printTree((yyval));printf("\n");icg((yyval));top = -1;}
+#line 1928 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 162 "php_yacc.y" /* yacc.c:1646  */
+#line 167 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1929 "y.tab.c" /* yacc.c:1646  */
+#line 1934 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 163 "php_yacc.y" /* yacc.c:1646  */
+#line 168 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1935 "y.tab.c" /* yacc.c:1646  */
+#line 1940 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 164 "php_yacc.y" /* yacc.c:1646  */
+#line 169 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1941 "y.tab.c" /* yacc.c:1646  */
+#line 1946 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 165 "php_yacc.y" /* yacc.c:1646  */
+#line 170 "php_yacc.y" /* yacc.c:1646  */
     {(yyval)=build_tree((yyvsp[-1]),(yyvsp[-2]),(yyvsp[0]));}
-#line 1947 "y.tab.c" /* yacc.c:1646  */
+#line 1952 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 166 "php_yacc.y" /* yacc.c:1646  */
+#line 171 "php_yacc.y" /* yacc.c:1646  */
     {is_arr((yyvsp[-3]),(yylsp[-3]).last_line);char *arr_string=(char *)malloc(sizeof(char)*40);strcat(arr_string,(yyvsp[-3]));strcat(arr_string,(yyvsp[-2]));strcat(arr_string,(yyvsp[-1]));strcat(arr_string,(yyvsp[0]));(yyval)=build_tree(arr_string,NULL,NULL);}
-#line 1953 "y.tab.c" /* yacc.c:1646  */
+#line 1958 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 167 "php_yacc.y" /* yacc.c:1646  */
+#line 172 "php_yacc.y" /* yacc.c:1646  */
     {is_arr((yyvsp[-3]),(yylsp[-3]).last_line);search_id((yyvsp[-1]),(yylsp[-1]).last_line);char *arr_str = (char *)malloc(sizeof(char)*40);strcat(arr_str,(yyvsp[-3]));strcat(arr_str,(yyvsp[-2]));strcat(arr_str,(yyvsp[-1]));strcat(arr_str,(yyvsp[0]));(yyval)=build_tree(arr_str,NULL,NULL);}
-#line 1959 "y.tab.c" /* yacc.c:1646  */
+#line 1964 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 168 "php_yacc.y" /* yacc.c:1646  */
+#line 173 "php_yacc.y" /* yacc.c:1646  */
     {search_id((yyvsp[0]),(yylsp[0]).last_line);lookup((yyvsp[0]),(yylsp[0]).last_line,0,4);(yyval)=build_tree((yyvsp[0]),NULL,NULL);}
-#line 1965 "y.tab.c" /* yacc.c:1646  */
+#line 1970 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 169 "php_yacc.y" /* yacc.c:1646  */
+#line 174 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,3);(yyval)=build_tree((yyvsp[0]),NULL,NULL);}
-#line 1971 "y.tab.c" /* yacc.c:1646  */
+#line 1976 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 172 "php_yacc.y" /* yacc.c:1646  */
+#line 177 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);lookup((yyvsp[0]),(yylsp[0]).last_line,0,3);}
-#line 1977 "y.tab.c" /* yacc.c:1646  */
+#line 1982 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 173 "php_yacc.y" /* yacc.c:1646  */
+#line 178 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[0]),(yylsp[0]).last_line,0,3);}
-#line 1983 "y.tab.c" /* yacc.c:1646  */
+#line 1988 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 174 "php_yacc.y" /* yacc.c:1646  */
+#line 179 "php_yacc.y" /* yacc.c:1646  */
     {lookup((yyvsp[-1]),(yylsp[-1]).last_line,0,5);search_id((yyvsp[0]),(yylsp[0]).last_line);lookup((yyvsp[0]),(yylsp[0]).last_line,0,4);}
-#line 1989 "y.tab.c" /* yacc.c:1646  */
+#line 1994 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 175 "php_yacc.y" /* yacc.c:1646  */
+#line 180 "php_yacc.y" /* yacc.c:1646  */
     {search_id((yyvsp[0]),(yylsp[0]).last_line);lookup((yyvsp[0]),(yylsp[0]).last_line,0,4);}
-#line 1995 "y.tab.c" /* yacc.c:1646  */
+#line 2000 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1999 "y.tab.c" /* yacc.c:1646  */
+#line 2004 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2230,7 +2235,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 178 "php_yacc.y" /* yacc.c:1906  */
+#line 183 "php_yacc.y" /* yacc.c:1906  */
 
 
 int main(int argc,char *argv[])
@@ -2416,4 +2421,72 @@ void print_switch(tree_node *root)
       printTree(switch_case[i]->right+j);
     }
   }
+}
+void icg(tree_node *root)
+{
+  if(root)
+  {
+    icg(root -> left);
+    icg(root -> right);
+    if(root -> operand[0] == '+' || root -> operand[0] == '-' || root -> operand[0] == '*' || root -> operand[0] == '/')
+    {
+      char *temp = create_temp();
+      char operand1[35],operand2[35];
+      strcpy(operand2,stack[top]);
+      top = top - 1;
+      strcpy(operand1,stack[top]);
+      top = top - 1;
+      printf("%s = %s %s %s\n",temp,operand1,root->operand,operand2);
+      top = top + 1;
+      strcpy(stack[top],temp);
+    }
+    else if( root -> operand[0] == '=')
+    {
+      char operand1[35],operand2[35];
+      strcpy(operand2,stack[top]);
+      top = top - 1;
+      strcpy(operand1,stack[top]);
+      top = top - 1;
+      printf("%s %s %s\n",operand1,root -> operand,operand2);
+    }
+    else
+    {
+      top = top + 1;
+      strcpy(stack[top],root -> operand);
+    }
+  }
+}
+char *create_temp()
+{
+  int temp = temp_num;
+  int unit;
+  char char_num[3];
+  int temp_index = 0;
+  if(temp >= 10)
+  {
+     unit = temp % 10;
+     temp = temp / 10;
+     char_num[1] = unit + '0';
+     char_num[0] = temp + '0';
+     char_num[2] = '\0';
+  }
+  else
+  {
+    char_num[0] = temp + '0';
+    //printf("Temp %d\n",temp);
+    //printf("char %c\n",char_num[0]);
+    char_num[1] = '\0';
+  }
+  char *temp_var = (char *)malloc(sizeof(char) * 5);
+  temp_var[0] = 't';
+  temp_index = 0;
+  while(char_num[temp_index] != '\0')
+  {
+    temp_var[temp_index + 1] = char_num[temp_index];
+    temp_index = temp_index + 1;
+  }
+  temp_var[temp_index+1] = '\0';
+  //printf("temp_var %s\n",temp_var);
+  temp_num = temp_num + 1;
+  return temp_var;
 }
