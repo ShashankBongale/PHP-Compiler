@@ -2345,7 +2345,7 @@ void printTree(tree_node *tree)
 	if(tree->left || tree->right)
 		printf("(");
   if(tree -> operand != NULL)
-	printf(" %s ",tree->operand);
+	 printf(" %s ",tree->operand);
 	if(tree->left)
 		printTree(tree->left);
 	if(tree->right)

@@ -13,15 +13,11 @@ switch($ar1+$b)
           echo "shashan";
           echo "shashankm";
           break;
-          case 30:$c = 25 + $b *10 + 20;
-                  $d = 25 + $b;
-                  $d = 25 + $b;
-                  $d = 25 + $b;
-                  $d = 25 + $b;
-                  $d = 25 + $b;
-                  echo "shashan";
-                  echo "shashankm";
-                  break;
+  case 30:$c = 25 + $b *10 + 20;
+          $d = 25 + $b;
+          echo "shashan";
+          echo "shashankm";
+          break;
 }
 $c = 10.4;
 $arr = array(11,22);
@@ -37,4 +33,5 @@ foreach($col as $aq)
   $a = $a + $arr[$b];
   $z = 10 + 20;
 }
+
 ?>
