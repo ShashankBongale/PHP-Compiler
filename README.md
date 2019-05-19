@@ -5,4 +5,4 @@ A simple mini-compiler for PHP(switch and foreach) with syntax analysis,semantic
 * yacc php_yacc.y
 * gcc lex.yyc y.tab.c -o run
 * ./run
-Make sure that input is stored in input.txt
+ Make sure that input is stored in input.txt
