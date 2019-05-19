@@ -32,9 +32,9 @@ order to verify if the identifier is defined before in the program.
 In particular constructs like “foreach” where it is mandatory to use only array
 types we are making sure this by calling is_array function.
 #### Abstarct syntax tree
-  - Expression <br />
+  - <u>Expression </u><br />
   For expressions the every leaf node of the tree is an operand and the
 intermediate nodes represent the operators. The operators having
 higher precedence are farther to the root of AST when compared to the
 operators which have lower precedence, because higher precedence
-operators must be evaluated first relative to lower precedence operators
+operators must be evaluated first relative to lower precedence operators.
