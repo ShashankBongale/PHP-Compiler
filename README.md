@@ -34,7 +34,7 @@ types we are making sure this by calling is_array function.
 #### Abstarct syntax tree
   - Expressions <br /> For expressions the every leaf node of the tree is an operand and the
 intermediate nodes represent the operators. The operators having higher precedence are farther to the root of AST when compared to the operators which have lower precedence, because higher precedence 
-operators must be evaluated first relative to lower precedence operators. <br />
+operators must be evaluated first relative to lower precedence operators. <br /> <br />
   - foreach <br /> AST implementation for “foreach” incorporates the same basic structure of tree
 node as above. For each AST contains an expression array which holds the roots
 of all the expressions inside “foreach”. Left subtree contains the condition
