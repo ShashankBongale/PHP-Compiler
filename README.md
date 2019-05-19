@@ -32,9 +32,18 @@ order to verify if the identifier is defined before in the program.
 In particular constructs like “foreach” where it is mandatory to use only array
 types we are making sure this by calling is_array function.
 #### Abstarct syntax tree
-  - <u>Expression </u><br />
-  For expressions the every leaf node of the tree is an operand and the
+  - Expressions <br /> For expressions the every leaf node of the tree is an operand and the
 intermediate nodes represent the operators. The operators having
 higher precedence are farther to the root of AST when compared to the
 operators which have lower precedence, because higher precedence
 operators must be evaluated first relative to lower precedence operators.
+  - foreach <br /> AST implementation for “foreach” incorporates the same basic structure of tree
+node as above. For each AST contains an expression array which holds the roots
+of all the expressions inside “foreach”. Left subtree contains the condition
+expression and right subtree which is an n-array tree contains all the expressions
+inside “foreach” block.
+  - Intermediate code generation <br /> Intermediate code is built using AST and a character stack. The logic used here is
+that whenever we encounter an operator we create a temporary variable by
+calling create_temp function otherwise we just push the operand into the stack.
+On creation of temporary variable we push this variable into the stack as other
+expressions might depend on the value of temporary variable.
