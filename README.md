@@ -1,6 +1,6 @@
-# Mini Compiler for PHP
+# Mini Compiler for PHP : 
 The project aimed at building a mini-complier for PHP. The language constructs supported by the mini-complier are “switch” and “foreach”. Along with these we have handled arrays and expressions.
-## Architecture of the Language:
+## Architecture of the Language :
   - Variable declarations
   - Variable assignments
   - Arithmetic expressions
@@ -14,14 +14,8 @@ The project aimed at building a mini-complier for PHP. The language constructs s
   - Comments
   - Parenthesis matching
   - Error reporting with line numbers
-## Compilation steps:
-Make sure that input is stored in input.txt
-  - lex php_lex.l
-  - yacc php_yacc.y
-  - gcc lex.yyc y.tab.c -o run
-  - ./run
-## Design stratergy and implementation details:
-#### Symbol table creation:
+## Design stratergy and implementation details :
+#### Symbol table creation :
 As a part of symbol table we are storing line number, name of the identifier, flag
 for array type and type of the variable.
 Before inserting anything into the symbol table lookup function is called in-order
@@ -31,7 +25,7 @@ In any expressions if there is an identifier used, search_id function is called 
 order to verify if the identifier is defined before in the program.
 In particular constructs like “foreach” where it is mandatory to use only array
 types we are making sure this by calling is_array function.
-#### Abstarct syntax tree
+#### Abstarct syntax tree : 
   - Expressions <br /> For expressions the every leaf node of the tree is an operand and the
 intermediate nodes represent the operators. The operators having higher precedence are farther to the root of AST when compared to the operators which have lower precedence, because higher precedence 
 operators must be evaluated first relative to lower precedence operators. <br /> <br />
@@ -40,9 +34,15 @@ node as above. For each AST contains an expression array which holds the roots
 of all the expressions inside “foreach”. Left subtree contains the condition
 expression and right subtree which is an n-array tree contains all the expressions
 inside “foreach” block.
-#### Intermediate code generation 
+#### Intermediate code generation :  
 Intermediate code is built using AST and a character stack. The logic used here is
 that whenever we encounter an operator we create a temporary variable by
 calling create_temp function otherwise we just push the operand into the stack.
 On creation of temporary variable we push this variable into the stack as other
 expressions might depend on the value of temporary variable.
+## Compilation steps :
+Make sure that input is stored in input.txt
+  - lex php_lex.l
+  - yacc php_yacc.y
+  - gcc lex.yyc y.tab.c -o run
+  - ./run
